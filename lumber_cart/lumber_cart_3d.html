@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lumber + Plywood Cart — 3D Model</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #1e2030; }
+    canvas { display: block; }
+
+    #info {
+      position: absolute; top: 14px; left: 14px;
+      font: 14px/1.75 system-ui, sans-serif; color: #eee;
+      background: rgba(0,0,0,0.65); padding: 10px 16px; border-radius: 8px;
+      pointer-events: none;
+    }
+    #info strong { font-size: 16px; }
+    #info small  { color: #999; }
+
+    #legend {
+      position: absolute; bottom: 14px; left: 14px;
+      font: 13px/2.1 system-ui, sans-serif; color: #ddd;
+      background: rgba(0,0,0,0.65); padding: 10px 16px; border-radius: 8px;
+      pointer-events: none;
+    }
+    .sw {
+      display: inline-block; width: 13px; height: 13px;
+      vertical-align: middle; margin-right: 7px; border-radius: 2px;
+    }
+
+    #controls {
+      position: absolute; top: 14px; right: 14px;
+      font: 13px system-ui, sans-serif;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    #controls button {
+      background: rgba(0,0,0,0.65); border: 1px solid #555;
+      color: #ddd; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    }
+    #controls button:hover { background: rgba(60,60,80,0.8); }
+  </style>
+</head>
+<body>
+
+<div id="info">
+  <strong>Lumber + Plywood Cart — 3D Model</strong><br>
+  48 × 18 × 39 in &nbsp;·&nbsp; 1 sheet ¾ in plywood + 2×4 frame<br>
+  <small>Drag to rotate · Scroll to zoom · Right-drag to pan</small>
+</div>
+
+<div id="legend">
+  <div><span class="sw" style="background:#c09050"></span>2×4 Base Frame</div>
+  <div><span class="sw" style="background:#d7c4a3"></span>Side / Divider Panels (×3)</div>
+  <div><span class="sw" style="background:#77bb77"></span>Back Panel</div>
+  <div><span class="sw" style="background:#6699cc"></span>Floor Panel</div>
+  <div><span class="sw" style="background:#aa88cc"></span>Front Retainers (×2)</div>
+  <div><span class="sw" style="background:#dd9933"></span>Back Retainer</div>
+  <div><span class="sw" style="background:#e0d0a8"></span>Dowels (×2)</div>
+  <div><span class="sw" style="background:#444"></span>Casters (×4)</div>
+</div>
+
+<div id="controls">
+  <button id="btnFront">Front View</button>
+  <button id="btnSide">Side View</button>
+  <button id="btnTop">Top View</button>
+  <button id="btnIso">Isometric</button>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Renderer ──────────────────────────────────────────────────────────────
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ── Scene ─────────────────────────────────────────────────────────────────
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1e2030);
+
+// ── Camera ────────────────────────────────────────────────────────────────
+const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.5, 600);
+camera.position.set(90, 58, 80);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(24, 22, 9);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.minDistance = 15;
+controls.maxDistance = 300;
+camera.lookAt(controls.target);
+
+// ── View presets ──────────────────────────────────────────────────────────
+function flyTo(px, py, pz) {
+  camera.position.set(px, py, pz);
+  controls.target.set(24, 22, 9);
+  controls.update();
+}
+document.getElementById('btnFront').onclick = () => flyTo(24, 25, 120);
+document.getElementById('btnSide').onclick  = () => flyTo(120, 25, 9);
+document.getElementById('btnTop').onclick   = () => flyTo(24, 130, 9.5);
+document.getElementById('btnIso').onclick   = () => flyTo(90, 58, 80);
+
+// ── Lights ────────────────────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0xffffff, 0.52));
+
+const sun = new THREE.DirectionalLight(0xfff8e0, 1.15);
+sun.position.set(70, 130, 60);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left   = -80;
+sun.shadow.camera.right  =  80;
+sun.shadow.camera.top    =  90;
+sun.shadow.camera.bottom = -10;
+scene.add(sun);
+
+const fill = new THREE.DirectionalLight(0xb0c8ff, 0.38);
+fill.position.set(-60, 40, -40);
+scene.add(fill);
+
+// ── Ground ────────────────────────────────────────────────────────────────
+const groundGeo = new THREE.PlaneGeometry(400, 400, 20, 20);
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x252535, roughness: 1 });
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// subtle grid
+const grid = new THREE.GridHelper(300, 50, 0x383855, 0x303045);
+scene.add(grid);
+
+// ── Dimensions (inches) ───────────────────────────────────────────────────
+const T   = 0.75;      // plywood thickness
+const W4  = 1.5;       // 2×4 narrow face
+const H4  = 3.5;       // 2×4 wide face
+const RH  = 4.0;       // retainer height
+const CH  = 5.0;       // caster installed height
+const PH  = 30.5;      // panel height
+const PD  = 17.25;     // floor full depth (front edge to back retainer)
+const SPD = 11.0;      // side/divider panel depth — ends at back panel front face
+const BP_Z = 11.0;    // back panel front-face Z — sits 11" from front, leaving ~4.75" trough at rear for wider lumber
+const CW  = 48.0;      // cart width
+const CD  = 18.0;      // cart total depth
+
+const Y0  = CH + H4;   // = 8.5  — bottom of all plywood parts
+const FY  = Y0 + T;    // = 9.25 — floor surface
+
+const INW = CW - 2 * T;         // = 46.5  inner width
+const BAY = (INW - T) / 2;      // = 22.875 clear bay width
+
+// ── Materials ─────────────────────────────────────────────────────────────
+const mk = (hex, rough = 0.78, metal = 0) =>
+  new THREE.MeshStandardMaterial({ color: hex, roughness: rough, metalness: metal });
+
+const MAT = {
+  frame : mk(0xb07838),
+  side  : mk(0xd7c4a3),
+  back  : mk(0x77bb77),
+  floor : mk(0x6699cc),
+  fret  : mk(0xaa88cc),
+  bret  : mk(0xdd9933),
+  dowel : mk(0xe0d0a8, 0.55),
+  cast  : mk(0x555555, 0.45, 0.2),
+  wheel : mk(0x1a1a1a, 0.9)
+};
+
+const EDGE_MAT = new THREE.LineBasicMaterial({
+  color: 0x000000, transparent: true, opacity: 0.22, depthBias: -1
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+// Add a box by its minimum-corner (x0, y0, z0)
+function addBox(w, h, d, mat, x0, y0, z0) {
+  const geo  = new THREE.BoxGeometry(w, h, d);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(x0 + w / 2, y0 + h / 2, z0 + d / 2);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+  // Edge lines
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 10), EDGE_MAT);
+  mesh.add(edges);
+  return mesh;
+}
+
+// Add a cylinder by its axis centre position
+function addCyl(rTop, rBot, len, segs, mat, cx, cy, cz, rotZ = 0) {
+  const geo  = new THREE.CylinderGeometry(rTop, rBot, len, segs);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.rotation.z = rotZ;
+  mesh.position.set(cx, cy, cz);
+  mesh.castShadow = true;
+  scene.add(mesh);
+  return mesh;
+}
+
+// ── 2×4 Base Frame ────────────────────────────────────────────────────────
+// Long front rail:  X 0..48,       Z 0..1.5
+addBox(CW,         H4, W4, MAT.frame,  0,          CH, 0);
+// Long back rail:   X 0..48,       Z 16.5..18
+addBox(CW,         H4, W4, MAT.frame,  0,          CH, CD - W4);
+// Left end rail:    X 0..1.5,      Z 1.5..16.5
+addBox(W4,         H4, 15, MAT.frame,  0,          CH, W4);
+// Right end rail:   X 46.5..48,    Z 1.5..16.5
+addBox(W4,         H4, 15, MAT.frame,  CW - W4,    CH, W4);
+// Centre rail:      X 23.25..24.75, Z 1.5..16.5
+addBox(W4,         H4, 15, MAT.frame,  24 - W4/2,  CH, W4);
+
+// ── Casters ───────────────────────────────────────────────────────────────
+for (const cx of [3.5, CW - 3.5]) {
+  for (const cz of [3.5, CD - 3.5]) {
+    // Mounting plate
+    const pl = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.7, 3.8), MAT.cast);
+    pl.position.set(cx, CH - 0.35, cz);
+    pl.castShadow = true;
+    scene.add(pl);
+    // Stem
+    addCyl(0.38, 0.38, 2.0, 10, MAT.cast, cx, CH - 1.7, cz);
+    // Wheel (axis along X so it rolls front-to-back)
+    addCyl(2.1, 2.1, 1.4, 22, MAT.wheel, cx, 2.1, cz, Math.PI / 2);
+    // Tyre ring
+    const tyre = new THREE.Mesh(
+      new THREE.TorusGeometry(2.1, 0.25, 8, 22),
+      MAT.wheel
+    );
+    tyre.rotation.x = Math.PI / 2;
+    tyre.position.set(cx, 2.1, cz);
+    scene.add(tyre);
+  }
+}
+
+// ── Floor Panel: 48 × T × 18 — covers the ENTIRE 2×4 base frame.
+// Side panels, back panel, and retainers all sit ON TOP of this.
+addBox(CW, T, CD, MAT.floor, 0, Y0, 0);
+
+// ── Back Panel: 48 × 30.5 × T — positioned 11" from front, sits on floor surface.
+// Leaves a ~5-1/2" open trough between its back face and the back retainer.
+addBox(CW, PH, T, MAT.back, 0, FY, BP_Z);
+
+// ── Back Retainer: 48 × 4 × T — full width, sits on floor at the very rear ────
+addBox(CW, RH, T, MAT.bret, 0, FY, CD - T);
+
+// ── Front Retainers (×2): at front edge of floor ──────────────────────────
+addBox(BAY, RH, T, MAT.fret,  T,             FY, 0);   // left bay
+addBox(BAY, RH, T, MAT.fret,  T + BAY + T,   FY, 0);   // right bay
+
+// ── Side / Divider Panels (angled profile) ────────────────────────────────
+//
+// Shape in local XY, extruded along local +Z by thickness T.
+// Profile corners (x = depth from front 0→SPD, y = height from panel bottom):
+//   (0,    0)    front-bottom
+//   (0,    11)   front-break  (same steep slope as original design)
+//   (4,    PH)   slope-top    (4" from front = start of flat top section)
+//   (SPD,  PH)   back-top     (SPD = 11" — panel ends at back panel front face)
+//   (SPD,  0)    back-bottom
+//
+// After rotation.y = -PI/2:
+//   local_x → world_z  (shape depth = world Z depth from front ✓)
+//   local_y → world_y  (shape height = world height ✓)
+//   local_z → -world_x (extrusion goes in -X direction)
+//
+// So: mesh.position.x = xRightFace
+//     panel right face at world X = xRightFace (local_z = 0)
+//     panel left  face at world X = xRightFace − T  (local_z = T)
+//
+function addPanel(xRight) {
+  const shape = new THREE.Shape();
+  shape.moveTo(0,    0);
+  shape.lineTo(0,    11);
+  shape.lineTo(4,    PH);    // slope-top: 4" from front
+  shape.lineTo(SPD,  PH);   // back-top: 11" from front
+  shape.lineTo(SPD,  0);
+  shape.closePath();
+
+  const geo  = new THREE.ExtrudeGeometry(shape, { depth: T, bevelEnabled: false });
+  const mesh = new THREE.Mesh(geo, MAT.side);
+  mesh.rotation.y = -Math.PI / 2;
+  // position.z=0 → shape x=0 lands at world Z=0 (front face of cart) ✓
+  // position.y=FY → shape y=0 lands at world Y=FY (sits on top of floor panel) ✓
+  mesh.position.set(xRight, FY, 0);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+
+  // Edge outline
+  const eMat = EDGE_MAT.clone();
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 8), eMat);
+  mesh.add(edges);
+}
+
+addPanel(T);            // left outer panel  (right face at X = 0.75,  left face at X = 0)
+addPanel(24 + T / 2);   // centre divider     (right face at X = 24.375, left at 23.625)
+addPanel(CW);           // right outer panel  (right face at X = 48,    left face at X = 47.25)
+
+// ── Dowels: 1-in diameter, horizontal along X ─────────────────────────────
+// Length = INW = 46.5 in, z-position = 1.75 in from front
+function addDowel(yPos) {
+  const geo  = new THREE.CylinderGeometry(0.5, 0.5, INW, 20);
+  const mesh = new THREE.Mesh(geo, MAT.dowel);
+  mesh.rotation.z = Math.PI / 2;           // axis along world X
+  mesh.position.set(CW / 2, yPos, 1.75);
+  mesh.castShadow = true;
+  scene.add(mesh);
+  // End caps (visible on the left/right outer panel faces)
+  for (const ex of [T + 0.01, CW - T - 0.01]) {
+    const cap = new THREE.Mesh(
+      new THREE.CircleGeometry(0.5, 20),
+      MAT.dowel
+    );
+    cap.position.set(ex, yPos, 1.75);
+    cap.rotation.y = ex < CW / 2 ? Math.PI / 2 : -Math.PI / 2;
+    scene.add(cap);
+  }
+}
+
+addDowel(FY + 9.0);    // lower bar: ~9 in above floor surface (in front of back panel)
+addDowel(FY + 21.5);   // upper bar: ~21.5 in above floor surface
+
+// ── Render Loop ───────────────────────────────────────────────────────────
+(function loop() {
+  requestAnimationFrame(loop);
+  controls.update();
+  renderer.render(scene, camera);
+})();
+</script>
+</body>
+</html>

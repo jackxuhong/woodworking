@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 860" width="560" height="860">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3d3d3d" />
+    </marker>
+    <style>
+      .panel { fill: #d9d1c1; stroke: #454545; stroke-width: 3; }
+      .dim { stroke: #3d3d3d; stroke-width: 2; marker-start: url(#arrow); marker-end: url(#arrow); }
+      .guide { stroke: #6d6d6d; stroke-width: 2; stroke-dasharray: 8 6; fill: none; }
+      .text { font: 22px Arial, sans-serif; fill: #222; }
+      .small { font: 18px Arial, sans-serif; fill: #333; }
+      .title { font: 28px Arial, sans-serif; font-weight: bold; fill: #222; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="40" y="50" class="title">Side / Divider Panel Profile</text>
+  <text x="40" y="82" class="small">Start from an 11 in x 30-1/2 in blank, then cut the angled front corner.</text>
+
+  <!--
+    Scale: 20 px/inch.  Origin (front-bottom corner) at SVG (130, 780).
+    X = depth from FRONT (right = toward back).  Y = height from bottom (up = taller).
+    Corners in inches → SVG px:
+      front-bottom  (0,   0)    → (130, 780)
+      front-break   (0,  11)    → (130, 560)
+      slope-top     (4,  30.5)  → (210, 170)
+      back-top      (11, 30.5)  → (350, 170)
+      back-bottom   (11,  0)    → (350, 780)
+  -->
+
+  <!-- Panel fill -->
+  <polygon class="panel" points="130,780 130,560 210,170 350,170 350,780" />
+
+  <!-- Guide lines (dashed) -->
+  <line x1="130" y1="170" x2="130" y2="780" class="guide" />
+  <line x1="130" y1="170" x2="350" y2="170" class="guide" />
+  <line x1="350" y1="780" x2="350" y2="170" class="guide" />
+
+  <!-- DIMENSION: total depth 11" — horizontal arrow below panel -->
+  <line x1="130" y1="820" x2="350" y2="820" class="dim" />
+  <text x="218" y="850" class="text">11</text>
+
+  <!-- DIMENSION: total height 30-1/2" — vertical arrow left of panel -->
+  <line x1="80" y1="170" x2="80" y2="780" class="dim" />
+  <text x="22" y="490" transform="rotate(-90 22 490)" class="text">30-1/2</text>
+
+  <!-- DIMENSION: front break height 11" — vertical arrow right of front face -->
+  <line x1="390" y1="560" x2="390" y2="780" class="dim" />
+  <text x="410" y="682" transform="rotate(-90 410 682)" class="text">11</text>
+
+  <!-- DIMENSION: slope-start from front 4" — horizontal arrow on top edge -->
+  <line x1="130" y1="128" x2="210" y2="128" class="dim" />
+  <text x="157" y="116" class="text">4</text>
+
+  <!-- DIMENSION: flat top section 7" — horizontal arrow on top edge -->
+  <line x1="210" y1="128" x2="350" y2="128" class="dim" />
+  <text x="267" y="116" class="text">7</text>
+
+  <!-- Cut line (slope) -->
+  <line x1="130" y1="560" x2="210" y2="170" class="guide" stroke="#9b2020" stroke-dasharray="none" stroke-width="2.5" />
+  <text x="138" y="378" transform="rotate(-79 138 378)" class="text" fill="#9b2020">cut line</text>
+
+  <!-- Corner dots -->
+  <circle cx="130" cy="780" r="5" fill="#222" />
+  <circle cx="130" cy="560" r="5" fill="#222" />
+  <circle cx="210" cy="170" r="5" fill="#222" />
+  <circle cx="350" cy="170" r="5" fill="#222" />
+  <circle cx="350" cy="780" r="5" fill="#222" />
+
+  <!-- Corner coordinate labels -->
+  <text x="80"  y="798" class="small">(0, 0)</text>
+  <text x="38"  y="560" class="small">(0, 11)</text>
+  <text x="215" y="165" class="small">(4, 30-1/2)</text>
+  <text x="355" y="165" class="small">(11, 30-1/2)</text>
+  <text x="355" y="798" class="small">(11, 0)</text>
+
+  <!-- Direction labels -->
+  <text x="100" y="790" class="small" fill="#666" text-anchor="middle">← FRONT</text>
+  <text x="370" y="790" class="small" fill="#666">BACK →</text>
+</svg>

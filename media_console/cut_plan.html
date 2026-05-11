@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Console – Plywood Cut Plan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f2ede4;
+      margin: 0;
+      padding: 2rem;
+      color: #2c2c2c;
+    }
+    h1 { margin: 0 0 0.2rem; font-size: 1.5rem; }
+    .subtitle { color: #777; margin: 0 0 2rem; font-size: 0.9rem; }
+    .layout { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #888;
+      font-weight: 600;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th {
+      text-align: left;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.78rem;
+      color: #888;
+      background: #f9f7f3;
+      font-weight: 600;
+    }
+    td { padding: 0.4rem 0.7rem; font-size: 0.88rem; border-bottom: 1px solid #f0ece5; }
+    tr:last-child td { border-bottom: none; }
+    .swatch {
+      display: inline-block; width: 11px; height: 11px;
+      border-radius: 2px; border: 1px solid rgba(0,0,0,0.18);
+      vertical-align: middle; margin-right: 5px; flex-shrink: 0;
+    }
+    code {
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 0.83em;
+      background: #f0ece5;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    .note { font-size: 0.76rem; color: #aaa; margin: 0.8rem 0 0; line-height: 1.5; }
+    ol { margin: 0; padding-left: 1.3rem; }
+    ol li { font-size: 0.88rem; line-height: 1.75; }
+    .side-col { display: flex; flex-direction: column; gap: 1.25rem; max-width: 370px; }
+  </style>
+</head>
+<body>
+
+<h1>Media Console – Plywood Cut Plan</h1>
+<p class="subtitle">Material: 3/4" plywood &nbsp;·&nbsp; 1 sheet 4×8 (48" × 96")</p>
+
+<div class="layout">
+
+  <!-- ── Sheet diagram ── -->
+  <div class="card">
+    <h2>Sheet 1 of 1 &nbsp;·&nbsp; 48" × 96"</h2>
+
+    <!--
+      Scale: 6 px = 1 inch
+      Sheet SVG: 288 px wide × 576 px tall
+
+      Piece positions (x, y, w, h) in pixels:
+        A  55½×15  →  (  0,   0, 90, 333)
+        B  55½×15  →  ( 90,   0, 90, 333)
+        C  55½×4   →  (180,   0, 24, 333)
+        D  16¼×15  →  (  0, 333, 97.5,  90)
+        E  16¼×15  →  ( 97.5, 333, 97.5,  90)
+        F  14¾×14¼ →  (  0, 423, 88.5,  85.5)
+        G  14¾×14¼ →  ( 88.5, 423, 88.5,  85.5)
+
+      Offcut areas (hatched):
+        Right strip     x=204..288, y=0..576   (14"×96")
+        Bottom band     x=0..204,   y=508.5..576   (34"×11¼")
+        Small right-D/E x=195..204, y=333..423   (1½"×15")
+        Small right-F/G x=177..204, y=423..508.5  (4½"×14¼")
+    -->
+    <svg width="316" height="608"
+         viewBox="-14 -18 316 610"
+         xmlns="http://www.w3.org/2000/svg"
+         style="display:block">
+      <defs>
+        <pattern id="hatch" width="7" height="7"
+                 patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#c8bfaf" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+
+      <!-- Sheet base (plywood tone) -->
+      <rect x="0" y="0" width="288" height="576"
+            fill="#f0deb4" stroke="#8b7040" stroke-width="1.5" rx="1"/>
+
+      <!-- ── Pieces ── -->
+
+      <!-- A: 55½×15 -->
+      <rect x="0" y="0" width="90" height="333" fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="45"  y="156" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">A</text>
+      <text x="45"  y="170" text-anchor="middle" font-size="8"  fill="#1a5276">55½ × 15</text>
+
+      <!-- B: 55½×15 -->
+      <rect x="90" y="0" width="90" height="333" fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="135" y="156" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">B</text>
+      <text x="135" y="170" text-anchor="middle" font-size="8"  fill="#1a5276">55½ × 15</text>
+
+      <!-- C: 55½×4 (narrow – rotated label) -->
+      <rect x="180" y="0" width="24" height="333" fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 192 166.5)"
+            x="192" y="166.5" dy="3"
+            text-anchor="middle" font-size="8" font-weight="bold" fill="#145a32">
+        C – 55½ × 4
+      </text>
+
+      <!-- D: 16¼×15 -->
+      <rect x="0" y="333" width="97.5" height="90" fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="48.75"  y="373" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">D</text>
+      <text x="48.75"  y="386" text-anchor="middle" font-size="8"  fill="#6e4d00">16¼ × 15</text>
+
+      <!-- E: 16¼×15 -->
+      <rect x="97.5" y="333" width="97.5" height="90" fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="146.25" y="373" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">E</text>
+      <text x="146.25" y="386" text-anchor="middle" font-size="8"  fill="#6e4d00">16¼ × 15</text>
+
+      <!-- F: 14¾×14¼ -->
+      <rect x="0" y="423" width="88.5" height="85.5" fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="44.25"  y="462" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">F</text>
+      <text x="44.25"  y="476" text-anchor="middle" font-size="8"  fill="#4a235a">14¾ × 14¼</text>
+
+      <!-- G: 14¾×14¼ -->
+      <rect x="88.5" y="423" width="88.5" height="85.5" fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="132.75" y="462" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">G</text>
+      <text x="132.75" y="476" text-anchor="middle" font-size="8"  fill="#4a235a">14¾ × 14¼</text>
+
+      <!-- ── Offcut hatching ── -->
+
+      <!-- Right 14" strip -->
+      <rect x="204" y="0"   width="84"  height="576"  fill="url(#hatch)" opacity="0.6"/>
+      <rect x="204" y="0"   width="84"  height="576"  fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text transform="rotate(-90 246 288)"
+            x="246" y="288" dy="4"
+            text-anchor="middle" font-size="9" fill="#a09080">OFFCUT 14" × 96"</text>
+
+      <!-- Bottom band (y=508.5..576, x=0..204) -->
+      <rect x="0"   y="508.5" width="204" height="67.5" fill="url(#hatch)" opacity="0.6"/>
+      <rect x="0"   y="508.5" width="204" height="67.5" fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="102" y="546" text-anchor="middle" font-size="9" fill="#a09080">offcut</text>
+
+      <!-- Small right of D/E (1½"×15") -->
+      <rect x="195" y="333" width="9"  height="90"   fill="url(#hatch)" opacity="0.6"/>
+
+      <!-- Small right of F/G (4½"×14¼") -->
+      <rect x="177" y="423" width="27" height="85.5" fill="url(#hatch)" opacity="0.6"/>
+
+      <!-- ── Saw-cut lines (dashed red) ── -->
+
+      <!-- Rip at x=34" separating right offcut strip -->
+      <line x1="204" y1="0"   x2="204" y2="576"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Cross-cut at y=55.5" separating top/bottom sections -->
+      <line x1="0"   y1="333" x2="204" y2="333"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Rips at x=15" and x=30" within top section -->
+      <line x1="90"  y1="0"   x2="90"  y2="333"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="180" y1="0"   x2="180" y2="333"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Cross-cut at y=70.5" (between D/E and F/G rows) -->
+      <line x1="0"   y1="423" x2="204" y2="423"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Rip at x=16¼" in D/E row -->
+      <line x1="97.5" y1="333" x2="97.5" y2="423"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Rip at x=14¾" in F/G row -->
+      <line x1="88.5" y1="423" x2="88.5" y2="508.5"
+            stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- ── Dimension annotations ── -->
+
+      <!-- Sheet width: 48" -->
+      <line x1="0"   y1="-12" x2="288" y2="-12" stroke="#888" stroke-width="0.75"/>
+      <line x1="0"   y1="-15" x2="0"   y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <line x1="288" y1="-15" x2="288" y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <text x="144" y="-14" text-anchor="middle" font-size="9" fill="#666">48"</text>
+
+      <!-- Sheet height: 96" -->
+      <line x1="-10" y1="0"   x2="-10" y2="576" stroke="#888" stroke-width="0.75"/>
+      <line x1="-13" y1="0"   x2="-7"  y2="0"   stroke="#888" stroke-width="0.75"/>
+      <line x1="-13" y1="576" x2="-7"  y2="576" stroke="#888" stroke-width="0.75"/>
+      <text transform="rotate(-90 -10 288)"
+            x="-10" y="288" text-anchor="middle" font-size="9" fill="#666" dy="-3">96"</text>
+    </svg>
+
+    <p class="note">
+      Scale: 6 px = 1" &nbsp;·&nbsp; Dashed red lines = saw cuts<br>
+      Add 1/8" kerf allowance per cut &nbsp;·&nbsp; Grain runs along 96" axis (vertical)
+    </p>
+  </div>
+
+  <!-- ── Right column ── -->
+  <div class="side-col">
+
+    <!-- Cut list -->
+    <div class="card">
+      <h2>Cut List — 7 pieces from 1 sheet</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Finished Size</th>
+            <th>Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="swatch" style="background:#aed6f1;border-color:#2471a3"></span>A, B</td>
+            <td>55½" × 15"</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#a9dfbf;border-color:#1a7a40"></span>C</td>
+            <td>55½" × 4"</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#fad7a0;border-color:#b7770d"></span>D, E</td>
+            <td>16¼" × 15"</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#d7bde2;border-color:#6c3483"></span>F, G</td>
+            <td>14¾" × 14¼"</td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">Sheet utilization: ~61% &nbsp;·&nbsp; Offcut: ~14"×96" strip + scraps</p>
+    </div>
+
+    <!-- Cut sequence -->
+    <div class="card">
+      <h2>Cut Sequence</h2>
+      <ol>
+        <li>
+          <strong>Rip</strong> full sheet at <code>34"</code> from left edge (full 96" length)<br>
+          → 34"×96" working panel &nbsp;+&nbsp; 14"×96" offcut strip (set aside)
+        </li>
+        <li>
+          <strong>Cross-cut</strong> the 34"×96" panel at <code>55½"</code><br>
+          → <em>Top</em>: 34"×55½" &nbsp;·&nbsp; <em>Bottom</em>: 34"×40½"
+        </li>
+        <li>
+          From <strong>top section</strong> (34"×55½"):<br>
+          Rip at <code>15"</code> → <strong>A</strong> (15"×55½")<br>
+          Rip at <code>15"</code> → <strong>B</strong> (15"×55½")<br>
+          Remaining 4"×55½" → <strong>C</strong>
+        </li>
+        <li>
+          From <strong>bottom section</strong> (34"×40½"):<br>
+          Rip at <code>16¼"</code> → first 16¼"×40½" strip<br>
+          Rip at <code>16¼"</code> → second 16¼"×40½" strip<br>
+          (1½" remainder is scrap)
+        </li>
+        <li>
+          From <strong>first 16¼" strip</strong>:<br>
+          Cross-cut at <code>15"</code> → <strong>D</strong><br>
+          From remainder (16¼"×25½"): cross-cut at <code>14¼"</code>, rip at <code>14¾"</code> → <strong>F</strong>
+        </li>
+        <li>
+          Repeat step 5 on <strong>second 16¼" strip</strong> → <strong>E</strong> and <strong>G</strong>
+        </li>
+      </ol>
+      <p class="note">
+        Tip: make all rip cuts before cross-cuts where possible to keep pieces supported on the table saw.
+      </p>
+    </div>
+
+  </div><!-- end side-col -->
+
+</div><!-- end layout -->
+</body>
+</html>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3d3d3d" />
+    </marker>
+    <style>
+      .rail { fill: #b58f62; stroke: #333; stroke-width: 2; }
+      .body { fill: none; stroke: #2f6f94; stroke-width: 3; stroke-dasharray: 10 8; }
+      .floor { fill: #d4e8f4; stroke: none; }
+      .backpanel { fill: #d7c4a3; stroke: #555; stroke-width: 1.5; }
+      .caster { fill: #333; }
+      .dim { stroke: #3d3d3d; stroke-width: 2; marker-start: url(#arrow); marker-end: url(#arrow); }
+      .title { font: 28px Arial, sans-serif; font-weight: bold; fill: #222; }
+      .text { font: 18px Arial, sans-serif; fill: #222; }
+      .small { font: 16px Arial, sans-serif; fill: #333; }
+    </style>
+  </defs>
+
+  <text x="40" y="45" class="title">Base Frame And Body Footprint</text>
+  <text x="40" y="76" class="small">Top view. Blue dashed = side panels + floor (17-1/4" full depth). Tan = back panel (11" from front). Orange = back retainer (rear). Cream = lumber trough.</text>
+
+  <rect x="120" y="120" width="480" height="180" fill="#f3ece0" stroke="#333" stroke-width="2" />
+  <!-- Floor panel fill (light blue): 46-1/2 wide x 17-1/4 deep, between outer side panels -->
+  <rect x="127.5" y="120" width="452.5" height="172.5" class="floor" />
+
+  <rect x="120" y="120" width="480" height="15" class="rail" />
+  <rect x="120" y="285" width="480" height="15" class="rail" />
+  <rect x="120" y="135" width="15" height="150" class="rail" />
+  <rect x="585" y="135" width="15" height="150" class="rail" />
+  <rect x="352.5" y="135" width="15" height="150" class="rail" />
+
+  <!-- Side panels + floor body outline (17-1/4" deep) -->
+  <rect x="120" y="120" width="480" height="172.5" class="body" />
+  <!-- Back panel footprint — 11" from front: y = 120 + 110 = 230 -->
+  <rect x="120" y="230" width="480" height="7.5" class="backpanel" />
+  <!-- Lumber trough (between back panel back-face and back retainer): y=237.5 to 285 -->
+  <rect x="127.5" y="237.5" width="452.5" height="47.5" style="fill:#f4e4c4;stroke:#c4a060;stroke-width:1;stroke-dasharray:5 4" />
+  <!-- Back retainer footprint — at rear of floor: y=285 to 292.5 -->
+  <rect x="127.5" y="285" width="452.5" height="7.5" style="fill:#dd9933;stroke:#444;stroke-width:1.5" />
+
+  <circle cx="145" cy="145" r="10" class="caster" />
+  <circle cx="575" cy="145" r="10" class="caster" />
+  <circle cx="145" cy="275" r="10" class="caster" />
+  <circle cx="575" cy="275" r="10" class="caster" />
+
+  <line x1="120" y1="340" x2="600" y2="340" class="dim" />
+  <text x="345" y="368" class="text">48</text>
+
+  <line x1="80" y1="120" x2="80" y2="300" class="dim" />
+  <text x="34" y="220" transform="rotate(-90 34 220)" class="text">18</text>
+
+  <!-- 11" from front to back panel front face -->
+  <line x1="620" y1="120" x2="620" y2="230" class="dim" />
+  <text x="636" y="181" transform="rotate(-90 636 181)" class="small">11" (back panel)</text>
+  <!-- ~4-3/4" lumber trough -->
+  <line x1="620" y1="237.5" x2="620" y2="285" class="dim" />
+  <text x="636" y="264" transform="rotate(-90 636 264)" class="small">~4-3/4" trough</text>
+  <!-- full side/floor depth 17-1/4" -->
+  <line x1="645" y1="120" x2="645" y2="292.5" class="dim" />
+  <text x="660" y="215" transform="rotate(-90 660 215)" class="small">17-1/4"</text>
+
+  <!-- Body is flush with base frame on all four sides — no inset -->
+
+  <text x="190" y="175" class="small">15 in end rail</text>
+  <text x="355" y="175" class="small">15 in center rail</text>
+  <text x="280" y="112" class="small">48 in long rail</text>
+  <text x="180" y="165" class="small">floor panel 46-1/2 × 17-1/4</text>
+  <text x="130" y="228" class="small">← back panel 48 × 3/4 — installed 11" from front</text>
+  <text x="150" y="264" class="small">lumber trough ~4-3/4"</text>
+  <text x="150" y="283" class="small">↑ back retainer 46-1/2 × 4</text>
+
+  <line x1="360" y1="120" x2="360" y2="300" stroke="#2f6f94" stroke-width="2" stroke-dasharray="6 6" />
+  <text x="370" y="315" class="small">24 in centerline</text>
+</svg>
