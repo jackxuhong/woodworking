@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Console – Cut Plan v2 (Cross-cut First)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f2ede4;
+      margin: 0;
+      padding: 2rem;
+      color: #2c2c2c;
+    }
+    h1 { margin: 0 0 0.2rem; font-size: 1.5rem; }
+    .subtitle { color: #777; margin: 0 0 2rem; font-size: 0.9rem; }
+    .layout { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #888;
+      font-weight: 600;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th {
+      text-align: left;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.78rem;
+      color: #888;
+      background: #f9f7f3;
+      font-weight: 600;
+    }
+    td { padding: 0.4rem 0.7rem; font-size: 0.88rem; border-bottom: 1px solid #f0ece5; }
+    tr:last-child td { border-bottom: none; }
+    .swatch {
+      display: inline-block; width: 11px; height: 11px;
+      border-radius: 2px; border: 1px solid rgba(0,0,0,0.18);
+      vertical-align: middle; margin-right: 5px; flex-shrink: 0;
+    }
+    code {
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 0.83em;
+      background: #f0ece5;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    .note { font-size: 0.76rem; color: #aaa; margin: 0.8rem 0 0; line-height: 1.5; }
+    ol { margin: 0; padding-left: 1.3rem; }
+    ol li { font-size: 0.88rem; line-height: 1.75; }
+    .side-col { display: flex; flex-direction: column; gap: 1.25rem; max-width: 390px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 700;
+      margin-right: 4px;
+      letter-spacing: 0.03em;
+    }
+    .tag-x { background: #fde8e8; color: #c0392b; }
+    .tag-r { background: #e8f2fe; color: #1a5276; }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .pros-cons ul { margin: 0; padding-left: 1.1rem; }
+    .pros-cons li { font-size: 0.85rem; line-height: 1.8; }
+    .pro  { color: #1a7a40; }
+    .con  { color: #a93226; }
+  </style>
+</head>
+<body>
+
+<h1>Media Console – Cut Plan v2: Cross-cut First</h1>
+<p class="subtitle">
+  Material: 3/4" plywood &nbsp;·&nbsp; 1 sheet 4×8 (48" × 96")
+  &nbsp;·&nbsp; <strong>No kerf assumption required</strong>
+  &nbsp;·&nbsp; <span class="tag tag-x">— cross-cut</span> <span class="tag tag-r">— rip</span>
+</p>
+
+<div class="layout">
+
+  <!-- ── Sheet diagram ── -->
+  <div class="card">
+    <h2>Sheet 1 of 1 &nbsp;·&nbsp; 48" × 96"</h2>
+
+    <!--
+      Scale: 6 px = 1 inch  →  sheet = 288 × 576 px
+
+      Strategy: cross-cut full-width slabs first, then rip individual
+      pieces from each slab. Rip-fence sets exact piece width; kerf is
+      always consumed from the offcut side — no kerf math needed.
+
+      Section boundaries (y):
+        Top slab   y=0..333     (55½")   → A, B, C
+        D/E strip  y=333..423   (15")    → D, E
+        F/G strip  y=423..508.5 (14¼")  → F, G
+        Bottom     y=508.5..576 (≈11¼") → offcut
+
+      Piece positions (finished size; offcut absorbs kerfs):
+        A:  (0,     0,    90,    333)   15"   × 55½"
+        B:  (90,    0,    90,    333)   15"   × 55½"
+        C:  (180,   0,    24,    333)   4"    × 55½"
+        off:(204,   0,    84,    333)   ≈14"  × 55½"  (≈14"  minus 3 kerfs)
+        D:  (0,     333,  97.5,  90)    16¼"  × 15"
+        E:  (97.5,  333,  97.5,  90)    16¼"  × 15"
+        off:(195,   333,  93,    90)    ≈15½" × 15"   (minus 2 kerfs)
+        F:  (0,     423,  88.5,  85.5)  14¾"  × 14¼"
+        G:  (88.5,  423,  88.5,  85.5)  14¾"  × 14¼"
+        off:(177,   423,  111,   85.5)  ≈18½" × 14¼"  (minus 2 kerfs)
+        off:(0,     508.5,288,   67.5)  48"   × ≈11¼" (minus 3 cross-cut kerfs)
+
+      Cut lines:
+        Cross-cuts (red dashed, full width):  y=333, 423, 508.5
+        Rip cuts   (blue dashed, per slab):
+          x=90   y=0..333     (A | B)
+          x=180  y=0..333     (B | C)
+          x=97.5 y=333..423   (D | E)
+          x=88.5 y=423..508.5 (F | G)
+    -->
+
+    <svg width="340" height="614"
+         viewBox="-14 -18 340 620"
+         xmlns="http://www.w3.org/2000/svg"
+         style="display:block">
+      <defs>
+        <pattern id="hatch2" width="7" height="7"
+                 patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#c8bfaf" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+
+      <!-- Sheet base -->
+      <rect x="0" y="0" width="288" height="576"
+            fill="#f0deb4" stroke="#8b7040" stroke-width="1.5" rx="1"/>
+
+      <!-- ══ Top slab (55½") ══ -->
+
+      <!-- A: 15"×55½" -->
+      <rect x="0"   y="0" width="90"  height="333" fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="45"  y="152" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">A</text>
+      <text x="45"  y="166" text-anchor="middle" font-size="8"  fill="#1a5276">55½ × 15</text>
+
+      <!-- B: 15"×55½" -->
+      <rect x="90"  y="0" width="90"  height="333" fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="135" y="152" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">B</text>
+      <text x="135" y="166" text-anchor="middle" font-size="8"  fill="#1a5276">55½ × 15</text>
+
+      <!-- C: 4"×55½" -->
+      <rect x="180" y="0" width="24"  height="333" fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 192 166.5)"
+            x="192" y="166.5" dy="3"
+            text-anchor="middle" font-size="8" font-weight="bold" fill="#145a32">C – 55½×4</text>
+
+      <!-- offcut: ≈14"×55½" -->
+      <rect x="204" y="0"   width="84" height="333" fill="url(#hatch2)" opacity="0.7"/>
+      <rect x="204" y="0"   width="84" height="333" fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text transform="rotate(-90 246 166.5)"
+            x="246" y="166.5" dy="4"
+            text-anchor="middle" font-size="8" fill="#a09080">offcut ≈14"×55½"</text>
+
+      <!-- ══ D/E strip (15") ══ -->
+
+      <!-- D: 16¼"×15" -->
+      <rect x="0"    y="333" width="97.5" height="90" fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="48.75"  y="373" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">D</text>
+      <text x="48.75"  y="386" text-anchor="middle" font-size="8"  fill="#6e4d00">16¼ × 15</text>
+
+      <!-- E: 16¼"×15" -->
+      <rect x="97.5" y="333" width="97.5" height="90" fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="146.25" y="373" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">E</text>
+      <text x="146.25" y="386" text-anchor="middle" font-size="8"  fill="#6e4d00">16¼ × 15</text>
+
+      <!-- offcut: ≈15½"×15" -->
+      <rect x="195"  y="333" width="93"  height="90"  fill="url(#hatch2)" opacity="0.7"/>
+      <rect x="195"  y="333" width="93"  height="90"  fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="241.5" y="381" text-anchor="middle" font-size="8" fill="#a09080">offcut ≈15½"</text>
+
+      <!-- ══ F/G strip (14¼") ══ -->
+
+      <!-- F: 14¾"×14¼" -->
+      <rect x="0"    y="423" width="88.5" height="85.5" fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="44.25"  y="461" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">F</text>
+      <text x="44.25"  y="475" text-anchor="middle" font-size="8"  fill="#4a235a">14¾ × 14¼</text>
+
+      <!-- G: 14¾"×14¼" -->
+      <rect x="88.5" y="423" width="88.5" height="85.5" fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="132.75" y="461" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">G</text>
+      <text x="132.75" y="475" text-anchor="middle" font-size="8"  fill="#4a235a">14¾ × 14¼</text>
+
+      <!-- offcut: ≈18½"×14¼" -->
+      <rect x="177"  y="423" width="111" height="85.5" fill="url(#hatch2)" opacity="0.7"/>
+      <rect x="177"  y="423" width="111" height="85.5" fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="232.5" y="466" text-anchor="middle" font-size="8" fill="#a09080">offcut ≈18½"</text>
+
+      <!-- ══ Bottom offcut (≈11¼") ══ -->
+      <rect x="0"    y="508.5" width="288" height="67.5" fill="url(#hatch2)" opacity="0.7"/>
+      <rect x="0"    y="508.5" width="288" height="67.5" fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="144"  y="543" text-anchor="middle" font-size="9" fill="#a09080">offcut 48" × ≈11¼"</text>
+
+      <!-- ══ Cross-cut lines (red dashed) — run full width ══ -->
+
+      <line x1="0" y1="333"   x2="288" y2="333"   stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="7,3"/>
+      <line x1="0" y1="423"   x2="288" y2="423"   stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="7,3"/>
+      <line x1="0" y1="508.5" x2="288" y2="508.5" stroke="#e74c3c" stroke-width="1.2" stroke-dasharray="7,3"/>
+
+      <!-- ══ Rip cut lines (blue dashed) — within each slab ══ -->
+
+      <!-- top slab rips -->
+      <line x1="90"   y1="0"   x2="90"   y2="333"   stroke="#2471a3" stroke-width="1" stroke-dasharray="6,3"/>
+      <line x1="180"  y1="0"   x2="180"  y2="333"   stroke="#2471a3" stroke-width="1" stroke-dasharray="6,3"/>
+
+      <!-- D/E strip rip -->
+      <line x1="97.5" y1="333" x2="97.5" y2="423"   stroke="#2471a3" stroke-width="1" stroke-dasharray="6,3"/>
+
+      <!-- F/G strip rip -->
+      <line x1="88.5" y1="423" x2="88.5" y2="508.5" stroke="#2471a3" stroke-width="1" stroke-dasharray="6,3"/>
+
+      <!-- ══ Cut-order badges ══ -->
+      <!-- cross-cut 1 at y=333 -->
+      <rect x="116" y="325" width="56" height="14" rx="3" fill="#e74c3c"/>
+      <text x="144"  y="335.5" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">① cross-cut</text>
+
+      <!-- cross-cut 2 at y=423 -->
+      <rect x="116" y="415" width="56" height="14" rx="3" fill="#e74c3c"/>
+      <text x="144"  y="425.5" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">③ cross-cut</text>
+
+      <!-- cross-cut 3 at y=508.5 -->
+      <rect x="116" y="500.5" width="56" height="14" rx="3" fill="#e74c3c"/>
+      <text x="144"  y="511" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">④ cross-cut</text>
+
+      <!-- rip badge in A/B area -->
+      <rect x="72" y="152" width="36" height="14" rx="3" fill="#2471a3"/>
+      <text x="90"  y="162.5" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">② rip</text>
+
+      <!-- rip badge in D/E area -->
+      <rect x="78.75" y="368" width="36" height="14" rx="3" fill="#2471a3"/>
+      <text x="96.75" y="378.5" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">⑤ rip</text>
+
+      <!-- rip badge in F/G area -->
+      <rect x="70.5" y="458" width="36" height="14" rx="3" fill="#2471a3"/>
+      <text x="88.5"  y="468.5" text-anchor="middle" font-size="7.5" fill="white" font-weight="bold">⑥ rip</text>
+
+      <!-- ══ Height dimension annotations (right side) ══ -->
+
+      <!-- bracket for 55½" -->
+      <line x1="296" y1="0"    x2="296" y2="333"   stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="0"    x2="299" y2="0"     stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="333"  x2="299" y2="333"   stroke="#888" stroke-width="0.75"/>
+      <text x="302"  y="168"   font-size="8.5"      fill="#666">55½"</text>
+
+      <!-- bracket for 15" (D/E) -->
+      <line x1="296" y1="333"  x2="296" y2="423"   stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="333"  x2="299" y2="333"   stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="423"  x2="299" y2="423"   stroke="#888" stroke-width="0.75"/>
+      <text x="302"  y="381"   font-size="8.5"      fill="#666">15"</text>
+
+      <!-- bracket for 14¼" (F/G) -->
+      <line x1="296" y1="423"  x2="296" y2="508.5" stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="423"  x2="299" y2="423"   stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="508.5" x2="299" y2="508.5" stroke="#888" stroke-width="0.75"/>
+      <text x="302"  y="467"   font-size="8.5"      fill="#666">14¼"</text>
+
+      <!-- bracket for ≈11¼" -->
+      <line x1="296" y1="508.5" x2="296" y2="576"  stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="508.5" x2="299" y2="508.5" stroke="#888" stroke-width="0.75"/>
+      <line x1="293" y1="576"  x2="299" y2="576"   stroke="#888" stroke-width="0.75"/>
+      <text x="302"  y="545"   font-size="8.5"      fill="#666">≈11¼"</text>
+
+      <!-- ══ Sheet overall dimension annotations ══ -->
+
+      <!-- width: 48" -->
+      <line x1="0"   y1="-12" x2="288" y2="-12" stroke="#888" stroke-width="0.75"/>
+      <line x1="0"   y1="-15" x2="0"   y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <line x1="288" y1="-15" x2="288" y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <text x="144"  y="-14"  text-anchor="middle" font-size="9" fill="#666">48"</text>
+
+      <!-- height: 96" -->
+      <line x1="-10" y1="0"   x2="-10" y2="576" stroke="#888" stroke-width="0.75"/>
+      <line x1="-13" y1="0"   x2="-7"  y2="0"   stroke="#888" stroke-width="0.75"/>
+      <line x1="-13" y1="576" x2="-7"  y2="576" stroke="#888" stroke-width="0.75"/>
+      <text transform="rotate(-90 -10 288)"
+            x="-10" y="288" text-anchor="middle" font-size="9" fill="#666" dy="-3">96"</text>
+    </svg>
+
+    <p class="note">
+      Scale: 6 px = 1"
+      &nbsp;·&nbsp; <span style="color:#e74c3c;font-weight:600">— — cross-cut (full width)</span>
+      &nbsp;·&nbsp; <span style="color:#2471a3;font-weight:600">- - rip cut</span><br>
+      Pieces shown at finished size. Kerf loss comes off offcut side — no kerf math needed.
+    </p>
+  </div>
+
+  <!-- ── Right column ── -->
+  <div class="side-col">
+
+    <!-- Cut list -->
+    <div class="card">
+      <h2>Cut List — 7 pieces from 1 sheet</h2>
+      <table>
+        <thead>
+          <tr><th>Label</th><th>Finished Size</th><th>Qty</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="swatch" style="background:#aed6f1;border-color:#2471a3"></span>A, B</td>
+            <td>55½" × 15"</td><td>2</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#a9dfbf;border-color:#1a7a40"></span>C</td>
+            <td>55½" × 4"</td><td>1</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#fad7a0;border-color:#b7770d"></span>D, E</td>
+            <td>16¼" × 15"</td><td>2</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#d7bde2;border-color:#6c3483"></span>F, G</td>
+            <td>14¾" × 14¼"</td><td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cut sequence -->
+    <div class="card">
+      <h2>Cut Sequence</h2>
+      <ol>
+        <li>
+          <span class="tag tag-x">① cross-cut</span>
+          Full 48" sheet at <code>55½"</code> from one end<br>
+          → <strong>Top slab</strong> 48"×55½" &nbsp;·&nbsp;
+             <strong>Bottom slab</strong> 48"×40½" (remaining)
+        </li>
+        <li>
+          <span class="tag tag-r">② rip</span>
+          From <strong>top slab</strong> (48"×55½"):<br>
+          Set fence to <code>15"</code> → <strong>A</strong><br>
+          Set fence to <code>15"</code> → <strong>B</strong><br>
+          Set fence to <code>4"</code> → <strong>C</strong><br>
+          Remainder (≈14") is offcut
+        </li>
+        <li>
+          <span class="tag tag-x">③ cross-cut</span>
+          From <strong>bottom slab</strong> at <code>15"</code><br>
+          → <strong>D/E strip</strong> 48"×15"
+        </li>
+        <li>
+          <span class="tag tag-x">④ cross-cut</span>
+          From remainder at <code>14¼"</code><br>
+          → <strong>F/G strip</strong> 48"×14¼" &nbsp;·&nbsp; 48"×≈11¼" offcut
+        </li>
+        <li>
+          <span class="tag tag-r">⑤ rip</span>
+          From <strong>D/E strip</strong> (48"×15"):<br>
+          Set fence to <code>16¼"</code> → <strong>D</strong><br>
+          Set fence to <code>16¼"</code> → <strong>E</strong><br>
+          Remainder (≈15½") is offcut
+        </li>
+        <li>
+          <span class="tag tag-r">⑥ rip</span>
+          From <strong>F/G strip</strong> (48"×14¼"):<br>
+          Set fence to <code>14¾"</code> → <strong>F</strong><br>
+          Set fence to <code>14¾"</code> → <strong>G</strong><br>
+          Remainder (≈18½") is offcut
+        </li>
+      </ol>
+      <p class="note">
+        Tip: because the fence controls piece width, kerf always eats into the offcut side —
+        no need to calculate or know the blade thickness.
+      </p>
+    </div>
+
+    <!-- Trade-offs -->
+    <div class="card">
+      <h2>Trade-offs vs. Rip-first Plan</h2>
+      <div class="pros-cons">
+        <div>
+          <div style="font-size:0.78rem;font-weight:700;color:#1a7a40;margin-bottom:0.4rem;">Benefits</div>
+          <ul class="pro">
+            <li>No kerf width assumption</li>
+            <li>Fence setting = piece size, always</li>
+            <li>Shorter pieces easier to handle on table saw</li>
+            <li>48"×≈11¼" offcut is wide and usable</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:0.78rem;font-weight:700;color:#a93226;margin-bottom:0.4rem;">Drawbacks</div>
+          <ul class="con">
+            <li>No single long offcut for taller pieces</li>
+            <li>More cross-cuts (3 vs. 1)</li>
+            <li>Offcut widths are approximate (kerf-dependent)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

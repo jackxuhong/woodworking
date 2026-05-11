@@ -74,20 +74,28 @@
       Scale: 6 px = 1 inch
       Sheet SVG: 288 px wide × 576 px tall
 
-      Piece positions (x, y, w, h) in pixels:
-        A  55½×15  →  (  0,   0, 90, 333)
-        B  55½×15  →  ( 90,   0, 90, 333)
-        C  55½×4   →  (180,   0, 24, 333)
-        D  16¼×15  →  (  0, 333, 97.5,  90)
-        E  16¼×15  →  ( 97.5, 333, 97.5,  90)
-        F  14¾×14¼ →  (  0, 423, 88.5,  85.5)
-        G  14¾×14¼ →  ( 88.5, 423, 88.5,  85.5)
+      Working panel ripped at 34¼" = 15" + ⅛" kerf + 15" + ⅛" kerf + 4"
+      Scale: 6 px = 1 inch  →  34¼" = 205.5 px
 
+      Piece positions (x, y, w, h) in pixels (⅛" kerfs = 0.75 px, shown to scale):
+        A  55½×15  →  (  0,     0,  90,   333)
+        [kerf 0.75px]
+        B  55½×15  →  ( 90.75,  0,  90,   333)
+        [kerf 0.75px]
+        C  55½×4   →  (181.5,   0,  24,   333)
+        D  16¼×15  →  (  0,   333,  97.5,  90)
+        [kerf 0.75px]
+        E  16¼×15  →  ( 98.25, 333,  97.5,  90)
+        F  14¾×14¼ →  (  0,   423,  88.5,  85.5)
+        [kerf 0.75px]
+        G  14¾×14¼ →  ( 89.25, 423,  88.5,  85.5)
+
+      Working panel right edge: x=205.5
       Offcut areas (hatched):
-        Right strip     x=204..288, y=0..576   (14"×96")
-        Bottom band     x=0..204,   y=508.5..576   (34"×11¼")
-        Small right-D/E x=195..204, y=333..423   (1½"×15")
-        Small right-F/G x=177..204, y=423..508.5  (4½"×14¼")
+        Right strip     x=205.5..288, y=0..576    (13¾"×96")
+        Bottom band     x=0..205.5,   y=508.5..576
+        Small right-D/E x=195.75..205.5, y=333..423  (1⅝"×15")
+        Small right-F/G x=177.75..205.5, y=423..508.5
     -->
     <svg width="316" height="608"
          viewBox="-14 -18 316 610"
@@ -116,10 +124,10 @@
       <text x="135" y="156" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">B</text>
       <text x="135" y="170" text-anchor="middle" font-size="8"  fill="#1a5276">55½ × 15</text>
 
-      <!-- C: 55½×4 (narrow – rotated label) -->
-      <rect x="180" y="0" width="24" height="333" fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
-      <text transform="rotate(-90 192 166.5)"
-            x="192" y="166.5" dy="3"
+      <!-- C: 55½×4 (narrow – rotated label; starts after A+kerf+B+kerf = 30¼" = 181.5px) -->
+      <rect x="181.5" y="0" width="24" height="333" fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 193.5 166.5)"
+            x="193.5" y="166.5" dy="3"
             text-anchor="middle" font-size="8" font-weight="bold" fill="#145a32">
         C – 55½ × 4
       </text>
@@ -146,32 +154,32 @@
 
       <!-- ── Offcut hatching ── -->
 
-      <!-- Right 14" strip -->
-      <rect x="204" y="0"   width="84"  height="576"  fill="url(#hatch)" opacity="0.6"/>
-      <rect x="204" y="0"   width="84"  height="576"  fill="none" stroke="#b0a090" stroke-width="0.5"/>
-      <text transform="rotate(-90 246 288)"
-            x="246" y="288" dy="4"
-            text-anchor="middle" font-size="9" fill="#a09080">OFFCUT 14" × 96"</text>
+      <!-- Right 13¾" strip (= 48" sheet − 34¼" working panel) -->
+      <rect x="205.5" y="0"   width="82.5"  height="576"  fill="url(#hatch)" opacity="0.6"/>
+      <rect x="205.5" y="0"   width="82.5"  height="576"  fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text transform="rotate(-90 246.75 288)"
+            x="246.75" y="288" dy="4"
+            text-anchor="middle" font-size="9" fill="#a09080">OFFCUT 13¾" × 96"</text>
 
-      <!-- Bottom band (y=508.5..576, x=0..204) -->
-      <rect x="0"   y="508.5" width="204" height="67.5" fill="url(#hatch)" opacity="0.6"/>
-      <rect x="0"   y="508.5" width="204" height="67.5" fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <!-- Bottom band (y=508.5..576, x=0..205.5) -->
+      <rect x="0"   y="508.5" width="205.5" height="67.5" fill="url(#hatch)" opacity="0.6"/>
+      <rect x="0"   y="508.5" width="205.5" height="67.5" fill="none" stroke="#b0a090" stroke-width="0.5"/>
       <text x="102" y="546" text-anchor="middle" font-size="9" fill="#a09080">offcut</text>
 
-      <!-- Small right of D/E (1½"×15") -->
-      <rect x="195" y="333" width="9"  height="90"   fill="url(#hatch)" opacity="0.6"/>
+      <!-- Small right of D/E (1⅝"×15") -->
+      <rect x="195.75" y="333" width="9.75"  height="90"   fill="url(#hatch)" opacity="0.6"/>
 
-      <!-- Small right of F/G (4½"×14¼") -->
-      <rect x="177" y="423" width="27" height="85.5" fill="url(#hatch)" opacity="0.6"/>
+      <!-- Small right of F/G (4⅝"×14¼") -->
+      <rect x="177.75" y="423" width="27.75" height="85.5" fill="url(#hatch)" opacity="0.6"/>
 
       <!-- ── Saw-cut lines (dashed red) ── -->
 
-      <!-- Rip at x=34" separating right offcut strip -->
-      <line x1="204" y1="0"   x2="204" y2="576"
+      <!-- Rip at x=34¼" separating right offcut strip -->
+      <line x1="205.5" y1="0"   x2="205.5" y2="576"
             stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
 
       <!-- Cross-cut at y=55.5" separating top/bottom sections -->
-      <line x1="0"   y1="333" x2="204" y2="333"
+      <line x1="0"   y1="333" x2="205.5" y2="333"
             stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
 
       <!-- Rips at x=15" and x=30" within top section -->
@@ -181,7 +189,7 @@
             stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
 
       <!-- Cross-cut at y=70.5" (between D/E and F/G rows) -->
-      <line x1="0"   y1="423" x2="204" y2="423"
+      <line x1="0"   y1="423" x2="205.5" y2="423"
             stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
 
       <!-- Rip at x=16¼" in D/E row -->
@@ -210,7 +218,7 @@
 
     <p class="note">
       Scale: 6 px = 1" &nbsp;·&nbsp; Dashed red lines = saw cuts<br>
-      Add 1/8" kerf allowance per cut &nbsp;·&nbsp; Grain runs along 96" axis (vertical)
+      1/8" kerf accounted for in layout &nbsp;·&nbsp; Grain runs along 96" axis (vertical)
     </p>
   </div>
 
@@ -251,7 +259,7 @@
           </tr>
         </tbody>
       </table>
-      <p class="note">Sheet utilization: ~61% &nbsp;·&nbsp; Offcut: ~14"×96" strip + scraps</p>
+      <p class="note">Sheet utilization: ~61% &nbsp;·&nbsp; Offcut: ~13¾"×96" strip + scraps</p>
     </div>
 
     <!-- Cut sequence -->
@@ -259,24 +267,25 @@
       <h2>Cut Sequence</h2>
       <ol>
         <li>
-          <strong>Rip</strong> full sheet at <code>34"</code> from left edge (full 96" length)<br>
-          → 34"×96" working panel &nbsp;+&nbsp; 14"×96" offcut strip (set aside)
+          <strong>Rip</strong> full sheet at <code>34¼"</code> from left edge (full 96" length)<br>
+          → 34¼"×96" working panel &nbsp;+&nbsp; 13¾"×96" offcut strip (set aside)<br>
+          <em>Why 34¼"?</em> 15" (A) + ⅛" kerf + 15" (B) + ⅛" kerf + 4" (C) = 34¼"
         </li>
         <li>
-          <strong>Cross-cut</strong> the 34"×96" panel at <code>55½"</code><br>
-          → <em>Top</em>: 34"×55½" &nbsp;·&nbsp; <em>Bottom</em>: 34"×40½"
+          <strong>Cross-cut</strong> the 34¼"×96" panel at <code>55½"</code><br>
+          → <em>Top</em>: 34¼"×55½" &nbsp;·&nbsp; <em>Bottom</em>: 34¼"×40½"
         </li>
         <li>
-          From <strong>top section</strong> (34"×55½"):<br>
-          Rip at <code>15"</code> → <strong>A</strong> (15"×55½")<br>
-          Rip at <code>15"</code> → <strong>B</strong> (15"×55½")<br>
-          Remaining 4"×55½" → <strong>C</strong>
+          From <strong>top section</strong> (34¼"×55½"):<br>
+          Rip at <code>15"</code> → <strong>A</strong> (15"×55½") &nbsp;[⅛" kerf]<br>
+          Rip at <code>15"</code> → <strong>B</strong> (15"×55½") &nbsp;[⅛" kerf]<br>
+          Remaining 4"×55½" → <strong>C</strong> ✓
         </li>
         <li>
-          From <strong>bottom section</strong> (34"×40½"):<br>
-          Rip at <code>16¼"</code> → first 16¼"×40½" strip<br>
+          From <strong>bottom section</strong> (34¼"×40½"):<br>
+          Rip at <code>16¼"</code> → first 16¼"×40½" strip &nbsp;[⅛" kerf]<br>
           Rip at <code>16¼"</code> → second 16¼"×40½" strip<br>
-          (1½" remainder is scrap)
+          (1⅝" remainder is scrap: 34¼" − 16¼" − ⅛" kerf − 16¼" = 1⅝")
         </li>
         <li>
           From <strong>first 16¼" strip</strong>:<br>
