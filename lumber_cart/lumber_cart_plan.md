@@ -1,7 +1,5 @@
 # Lumber + Plywood Cart Build Plan
 
-![Reference design — PinkSoul Studios × Maker Gray](./design.webp)
-
 This is a reverse-engineered build plan based on the reference rendering above (PinkSoul Studios × Maker Gray "Plywood + Lumber Cart"). The cart stores full sheets of plywood standing on edge plus shorter lumber, rolls on four casters, and is cut from a **single 4 × 8 sheet of 3/4 in plywood** with a **2×4 base frame**.
 
 > **Design credit:** Alma Villalobos / PinkSoul Studios & Erin Longfellow / Maker Gray.
