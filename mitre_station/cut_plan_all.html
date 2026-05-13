@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitre Station – Combined 3-Cabinet Cut Plan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f2ede4;
+      margin: 0;
+      padding: 2rem;
+      color: #2c2c2c;
+    }
+    h1 { margin: 0 0 0.2rem; font-size: 1.5rem; }
+    .subtitle { color: #777; margin: 0 0 2rem; font-size: 0.9rem; }
+    .layout { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #888;
+      font-weight: 600;
+    }
+    h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.9rem;
+      color: #444;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th {
+      text-align: left;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.78rem;
+      color: #888;
+      background: #f9f7f3;
+      font-weight: 600;
+    }
+    td { padding: 0.4rem 0.7rem; font-size: 0.88rem; border-bottom: 1px solid #f0ece5; }
+    tr:last-child td { border-bottom: none; }
+    .swatch {
+      display: inline-block; width: 11px; height: 11px;
+      border-radius: 2px; border: 1px solid rgba(0,0,0,0.18);
+      vertical-align: middle; margin-right: 5px; flex-shrink: 0;
+    }
+    .swatch-big {
+      display: inline-block; width: 14px; height: 14px;
+      border-radius: 2px; border: 1px solid rgba(0,0,0,0.18);
+      vertical-align: middle; margin-right: 6px; flex-shrink: 0;
+    }
+    code {
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 0.83em;
+      background: #f0ece5;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    .note { font-size: 0.76rem; color: #aaa; margin: 0.8rem 0 0; line-height: 1.5; }
+    ol { margin: 0; padding-left: 1.3rem; }
+    ol li { font-size: 0.85rem; line-height: 1.75; margin-bottom: 0.3rem; }
+    .side-col { display: flex; flex-direction: column; gap: 1.25rem; max-width: 400px; }
+    .waste-bar {
+      height: 20px; border-radius: 4px; background: #e8e4da;
+      position: relative; overflow: hidden; margin: 0.5rem 0;
+    }
+    .waste-bar .used { height: 100%; background: #5a8a5a; border-radius: 4px; }
+    .waste-bar .label {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 600; color: rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Mitre Station – Combined 3-Cabinet Cut Plan</h1>
+<p class="subtitle">3 cabinets &nbsp;·&nbsp; ¾" plywood &nbsp;·&nbsp; 3 sheets 4×8 &nbsp;·&nbsp; Kerf ⅛"</p>
+
+<div class="layout">
+<div class="side-col">
+
+  <div class="card">
+    <h2>Cut List — All 3 Cabinets</h2>
+    <table>
+      <thead>
+        <tr><th>Part</th><th>Size</th><th>Qty</th><th>Cabinet(s)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="swatch" style="background:#aed6f1;border-color:#2471a3"></span>Side</td><td>30³⁄₁₆" × 23"</td><td>6</td><td>1,2,3</td></tr>
+        <tr><td><span class="swatch" style="background:#fad7a0;border-color:#b7770d"></span>Bottom C1</td><td>39⅞" × 23"</td><td>1</td><td>1</td></tr>
+        <tr><td><span class="swatch" style="background:#fad7a0;border-color:#b7770d"></span>Bottom C2</td><td>38⅜" × 23"</td><td>1</td><td>2</td></tr>
+        <tr><td><span class="swatch" style="background:#fad7a0;border-color:#b7770d"></span>Bottom C3</td><td>27½" × 23"</td><td>1</td><td>3</td></tr>
+        <tr><td><span class="swatch" style="background:#d7bde2;border-color:#6c3483"></span>Divider</td><td>28¹¹⁄₁₆" × 22¼"</td><td>2</td><td>1,2</td></tr>
+        <tr><td><span class="swatch" style="background:#a9dfbf;border-color:#1a7a40"></span>Stretcher C1</td><td>39⅞" × 4"</td><td>4</td><td>1</td></tr>
+        <tr><td><span class="swatch" style="background:#a9dfbf;border-color:#1a7a40"></span>Stretcher C2</td><td>38⅜" × 4"</td><td>4</td><td>2</td></tr>
+        <tr><td><span class="swatch" style="background:#a9dfbf;border-color:#1a7a40"></span>Stretcher C3</td><td>27½" × 4"</td><td>4</td><td>3</td></tr>
+      </tbody>
+    </table>
+    <p class="note">22 pieces total &nbsp;·&nbsp; Drawer boxes use ½" plywood (not included here)</p>
+  </div>
+
+  <div class="card">
+    <h2>Cut Sequence Summary</h2>
+    <ol>
+      <li><strong>Sheet 1</strong> — Rip two 23" strips, crosscut 3 bottoms + 2 sides</li>
+      <li><strong>Sheet 2</strong> — Rip one 23" strip (3 sides), then side + dividers from remainder</li>
+      <li><strong>Sheet 3</strong> — Rip five 4" strips, crosscut all 12 stretchers</li>
+    </ol>
+    <p class="note">Tip: complete all full-sheet rips first, then all crosscuts.</p>
+  </div>
+
+  <div class="card">
+    <h2>Sheet Utilization</h2>
+    <div><span class="swatch-big" style="background:#5a8a5a"></span> Sheet 1: 83% used</div>
+    <div class="waste-bar"><div class="used" style="width:83%"></div><div class="label">83%</div></div>
+    <div><span class="swatch-big" style="background:#5a8a5a"></span> Sheet 2: 88% used</div>
+    <div class="waste-bar"><div class="used" style="width:88%"></div><div class="label">88%</div></div>
+    <div><span class="swatch-big" style="background:#5a8a5a"></span> Sheet 3: 37% used</div>
+    <div class="waste-bar"><div class="used" style="width:37%"></div><div class="label">37%</div></div>
+    <div style="margin-top:0.5rem"><strong>Overall:</strong> 69% utilization (9,571 in² of 13,824 in²)</div>
+    <p class="note">Sheet 3 has 27½" × 96" unused — reserve for drawer parts or future projects.</p>
+  </div>
+
+</div>
+
+<div class="side-col" style="max-width:620px">
+
+  <!-- ── Sheet 1 ── -->
+  <div class="card sheet-card">
+    <h2>Sheet 1 of 3 &nbsp;·&nbsp; 48" × 96" &nbsp;·&nbsp; Bottoms + 2 Sides</h2>
+
+    <svg width="280" height="520"
+         viewBox="-22 -22 275 515"
+         xmlns="http://www.w3.org/2000/svg"
+         style="display:block">
+      <defs>
+        <pattern id="hatch" width="7" height="7"
+                 patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#c8bfaf" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+
+      <!-- Sheet base -->
+      <rect x="0" y="0" width="240" height="480"
+            fill="#f0deb4" stroke="#8b7040" stroke-width="1.5" rx="1"/>
+
+      <!-- ── Strip A (bottom strip): x=0..115 ── -->
+
+      <!-- C1 Bottom: 39⅞ × 23 -->
+      <rect x="0" y="0" width="115" height="199.375"
+            fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="57.5" y="93" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">C1 Bottom</text>
+      <text x="57.5" y="106" text-anchor="middle" font-size="8" fill="#6e4d00">39⅞ × 23</text>
+
+      <!-- C2 Bottom: 38⅜ × 23 -->
+      <rect x="0" y="200" width="115" height="191.875"
+            fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="57.5" y="289" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">C2 Bottom</text>
+      <text x="57.5" y="302" text-anchor="middle" font-size="8" fill="#6e4d00">38⅜ × 23</text>
+
+      <!-- Strip A end scrap -->
+      <rect x="0" y="391.875" width="115" height="88.125"
+            fill="url(#hatch)" opacity="0.6"/>
+      <rect x="0" y="391.875" width="115" height="88.125"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="57.5" y="435" text-anchor="middle" font-size="8" fill="#a09080">offcut 17⅝"</text>
+
+      <!-- ── Strip B (top strip): x=115.625..230.625 ── -->
+
+      <!-- C3 Bottom: 27½ × 23 -->
+      <rect x="115.625" y="0" width="115" height="137.5"
+            fill="#fad7a0" stroke="#b7770d" stroke-width="1"/>
+      <text x="173.125" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#6e4d00">C3 Bottom</text>
+      <text x="173.125" y="75" text-anchor="middle" font-size="8" fill="#6e4d00">27½ × 23</text>
+
+      <!-- Side 1 -->
+      <rect x="115.625" y="138.125" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="173.125" y="207" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 1</text>
+      <text x="173.125" y="220" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Side 2 -->
+      <rect x="115.625" y="289.6875" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="173.125" y="358" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 2</text>
+      <text x="173.125" y="371" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Strip B end scrap -->
+      <rect x="115.625" y="440.625" width="115" height="39.375"
+            fill="url(#hatch)" opacity="0.6"/>
+      <rect x="115.625" y="440.625" width="115" height="39.375"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="173.125" y="462" text-anchor="middle" font-size="8" fill="#a09080">offcut 7⅞"</text>
+
+      <!-- Edge scrap -->
+      <rect x="230.625" y="0" width="9.375" height="480"
+            fill="url(#hatch)" opacity="0.6"/>
+
+      <!-- ── Saw-cut lines ── -->
+
+      <!-- Rip between strips (kerf) -->
+      <line x1="115"     y1="0" x2="115"     y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="0" x2="115.625" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Rip edge scrap -->
+      <line x1="230.625" y1="0" x2="230.625" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Strip A crosscuts -->
+      <line x1="0" y1="199.375" x2="115" y2="199.375" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="200"     x2="115" y2="200"     stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Strip B crosscuts -->
+      <line x1="115.625" y1="137.5"    x2="230.625" y2="137.5"    stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="138.125"  x2="230.625" y2="138.125"  stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="289.0625" x2="230.625" y2="289.0625" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="289.6875" x2="230.625" y2="289.6875" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Dimension annotations -->
+      <line x1="0"   y1="-12" x2="240" y2="-12" stroke="#888" stroke-width="0.75"/>
+      <line x1="0"   y1="-15" x2="0"   y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <line x1="240" y1="-15" x2="240" y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <text x="120" y="-14" text-anchor="middle" font-size="9" fill="#666">48"</text>
+
+      <line x1="-12" y1="0"   x2="-12" y2="480" stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="0"   x2="-7"  y2="0"   stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="480" x2="-7"  y2="480" stroke="#888" stroke-width="0.75"/>
+      <text transform="rotate(-90 -12 240)" x="-12" y="240" text-anchor="middle" font-size="9" fill="#666" dy="-3">96"</text>
+    </svg>
+
+    <ol style="margin-top:0.5rem">
+      <li>Rip at <code>23"</code> from edge → Strip A (23 × 96)</li>
+      <li>Rip remainder at <code>23"</code> → Strip B (23 × 96) + 1⅞" edge scrap</li>
+      <li>Strip A crosscuts: <code>39⅞"</code> (C1 Bottom), <code>38⅜"</code> (C2 Bottom)</li>
+      <li>Strip B crosscuts: <code>27½"</code> (C3 Bottom), <code>30³⁄₁₆"</code> (Side 1), <code>30³⁄₁₆"</code> (Side 2)</li>
+    </ol>
+
+    <p class="note">5 pieces &nbsp;·&nbsp; 83% utilization &nbsp;·&nbsp; Scraps: 17⅝ × 23, 7⅞ × 23, 1⅞ × 96</p>
+  </div>
+
+  <!-- ── Sheet 2 ── -->
+  <div class="card sheet-card">
+    <h2>Sheet 2 of 3 &nbsp;·&nbsp; 48" × 96" &nbsp;·&nbsp; 4 Sides + 2 Dividers</h2>
+
+    <svg width="280" height="520"
+         viewBox="-22 -22 275 515"
+         xmlns="http://www.w3.org/2000/svg"
+         style="display:block">
+      <defs>
+        <pattern id="hatch2" width="7" height="7"
+                 patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#c8bfaf" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+
+      <!-- Sheet base -->
+      <rect x="0" y="0" width="240" height="480"
+            fill="#f0deb4" stroke="#8b7040" stroke-width="1.5" rx="1"/>
+
+      <!-- ── Strip B1 (left): x=0..115 ── -->
+
+      <!-- Side 3 -->
+      <rect x="0" y="0" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="57.5" y="68" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 3</text>
+      <text x="57.5" y="81" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Side 4 -->
+      <rect x="0" y="151.5625" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="57.5" y="219" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 4</text>
+      <text x="57.5" y="232" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Side 5 -->
+      <rect x="0" y="303.125" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="57.5" y="370" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 5</text>
+      <text x="57.5" y="383" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Strip B1 end scrap -->
+      <rect x="0" y="454.0625" width="115" height="25.9375"
+            fill="url(#hatch2)" opacity="0.6"/>
+      <rect x="0" y="454.0625" width="115" height="25.9375"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="57.5" y="469" text-anchor="middle" font-size="8" fill="#a09080">offcut 5³⁄₁₆"</text>
+
+      <!-- ── Remainder region: x=115.625..240 (24⅞" wide) ── -->
+
+      <!-- Side 6: 23 × 30³⁄₁₆ -->
+      <rect x="115.625" y="0" width="115" height="150.9375"
+            fill="#aed6f1" stroke="#2471a3" stroke-width="1"/>
+      <text x="173.125" y="68" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5276">Side 6</text>
+      <text x="173.125" y="81" text-anchor="middle" font-size="8" fill="#1a5276">30³⁄₁₆ × 23</text>
+
+      <!-- Side 6 edge sliver (1⅞" × 30⁵⁄₁₆) -->
+      <rect x="230.625" y="0" width="9.375" height="150.9375"
+            fill="url(#hatch2)" opacity="0.4"/>
+
+      <!-- ── Divider section │ trim to 22¼" ── -->
+      <!-- Divider 1 -->
+      <rect x="115.625" y="151.5625" width="111.25" height="143.4375"
+            fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="171.25" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">Divider 1</text>
+      <text x="171.25" y="229" text-anchor="middle" font-size="8" fill="#4a235a">28¹¹⁄₁₆ × 22¼</text>
+
+      <!-- Divider 2 -->
+      <rect x="115.625" y="295.625" width="111.25" height="143.4375"
+            fill="#d7bde2" stroke="#6c3483" stroke-width="1"/>
+      <text x="171.25" y="360" text-anchor="middle" font-size="10" font-weight="bold" fill="#4a235a">Divider 2</text>
+      <text x="171.25" y="373" text-anchor="middle" font-size="8" fill="#4a235a">28¹¹⁄₁₆ × 22¼</text>
+
+      <!-- Divider region offcut to right (2⅝") -->
+      <rect x="226.875" y="151.5625" width="13.125" height="287.5"
+            fill="url(#hatch2)" opacity="0.5"/>
+      <rect x="226.875" y="151.5625" width="13.125" height="287.5"
+            fill="none" stroke="#b0a090" stroke-width="0.3"/>
+
+      <!-- Divider end scrap -->
+      <rect x="115.625" y="439.0625" width="111.25" height="40.9375"
+            fill="url(#hatch2)" opacity="0.6"/>
+      <rect x="115.625" y="439.0625" width="111.25" height="40.9375"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+      <text x="171.25" y="461" text-anchor="middle" font-size="8" fill="#a09080">offcut 8³⁄₁₆"</text>
+
+      <!-- ── Saw-cut lines ── -->
+
+      <!-- Rip Strip B1 -->
+      <line x1="115"     y1="0" x2="115"     y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="0" x2="115.625" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Strip B1 crosscuts -->
+      <line x1="0" y1="150.9375" x2="115" y2="150.9375" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="151.5625" x2="115" y2="151.5625" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="302.5"    x2="115" y2="302.5"    stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="303.125"  x2="115" y2="303.125"  stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Side 6 crosscut + kerf -->
+      <line x1="115.625" y1="150.9375" x2="240" y2="150.9375" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="151.5625" x2="240" y2="151.5625" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Divider crosscuts -->
+      <line x1="115.625" y1="295"     x2="226.875" y2="295"     stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="115.625" y1="295.625" x2="226.875" y2="295.625" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Dimension annotations -->
+      <line x1="0"   y1="-12" x2="240" y2="-12" stroke="#888" stroke-width="0.75"/>
+      <line x1="0"   y1="-15" x2="0"   y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <line x1="240" y1="-15" x2="240" y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <text x="120" y="-14" text-anchor="middle" font-size="9" fill="#666">48"</text>
+
+      <line x1="-12" y1="0"   x2="-12" y2="480" stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="0"   x2="-7"  y2="0"   stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="480" x2="-7"  y2="480" stroke="#888" stroke-width="0.75"/>
+      <text transform="rotate(-90 -12 240)" x="-12" y="240" text-anchor="middle" font-size="9" fill="#666" dy="-3">96"</text>
+    </svg>
+
+    <ol style="margin-top:0.5rem">
+      <li>Rip at <code>23"</code> → Strip B1 (23 × 96) + 24⅞" remainder</li>
+      <li>Strip B1 crosscuts: <code>30³⁄₁₆"</code> ×3 → Sides 3,4,5</li>
+      <li>Remainder: crosscut <code>30³⁄₁₆"</code> → Side 6 (with 1⅞" edge sliver)</li>
+      <li>Trim remaining section to <code>22¼"</code> width (2⅝" offcut)</li>
+      <li>Crosscut dividers: <code>28¹¹⁄₁₆"</code> ×2</li>
+    </ol>
+
+    <p class="note">6 pieces &nbsp;·&nbsp; 88% utilization &nbsp;·&nbsp; Scattered small offcuts</p>
+  </div>
+
+  <!-- ── Sheet 3 ── -->
+  <div class="card sheet-card">
+    <h2>Sheet 3 of 3 &nbsp;·&nbsp; 48" × 96" &nbsp;·&nbsp; 12 Stretchers</h2>
+
+    <svg width="280" height="520"
+         viewBox="-22 -22 275 515"
+         xmlns="http://www.w3.org/2000/svg"
+         style="display:block">
+      <defs>
+        <pattern id="hatch3" width="7" height="7"
+                 patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="7" stroke="#c8bfaf" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+
+      <!-- Sheet base -->
+      <rect x="0" y="0" width="240" height="480"
+            fill="#f0deb4" stroke="#8b7040" stroke-width="1.5" rx="1"/>
+
+      <!-- ── Strip C1: x=0..20 ── -->
+      <rect x="0" y="0" width="20" height="199.375"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 10 99.6875)" x="10" y="99.6875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C1 · 39⅞</text>
+
+      <rect x="0" y="200" width="20" height="137.5"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 10 268.75)" x="10" y="268.75" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C3 · 27½</text>
+
+      <rect x="0" y="338.125" width="20" height="137.5"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 10 406.875)" x="10" y="406.875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C3 · 27½</text>
+
+      <rect x="0" y="475.625" width="20" height="4.375"
+            fill="url(#hatch3)" opacity="0.6"/>
+
+      <!-- ── Strip C2: x=20.625..40.625 ── -->
+      <rect x="20.625" y="0" width="20" height="199.375"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 30.625 99.6875)" x="30.625" y="99.6875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C1 · 39⅞</text>
+
+      <rect x="20.625" y="200" width="20" height="137.5"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 30.625 268.75)" x="30.625" y="268.75" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C3 · 27½</text>
+
+      <rect x="20.625" y="338.125" width="20" height="137.5"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 30.625 406.875)" x="30.625" y="406.875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C3 · 27½</text>
+
+      <rect x="20.625" y="475.625" width="20" height="4.375"
+            fill="url(#hatch3)" opacity="0.6"/>
+
+      <!-- ── Strip C3: x=41.25..61.25 ── -->
+      <rect x="41.25" y="0" width="20" height="199.375"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 51.25 99.6875)" x="51.25" y="99.6875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C1 · 39⅞</text>
+
+      <rect x="41.25" y="200" width="20" height="199.375"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 51.25 299.6875)" x="51.25" y="299.6875" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C1 · 39⅞</text>
+
+      <rect x="41.25" y="399.375" width="20" height="80.625"
+            fill="url(#hatch3)" opacity="0.6"/>
+      <rect x="41.25" y="399.375" width="20" height="80.625"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+
+      <!-- ── Strip C4: x=61.875..81.875 ── -->
+      <rect x="61.875" y="0" width="20" height="191.875"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 71.875 95.9375)" x="71.875" y="95.9375" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C2 · 38⅜</text>
+
+      <rect x="61.875" y="192.5" width="20" height="191.875"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 71.875 288.4375)" x="71.875" y="288.4375" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C2 · 38⅜</text>
+
+      <rect x="61.875" y="384.375" width="20" height="95.625"
+            fill="url(#hatch3)" opacity="0.6"/>
+      <rect x="61.875" y="384.375" width="20" height="95.625"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+
+      <!-- ── Strip C5: x=82.5..102.5 ── -->
+      <rect x="82.5" y="0" width="20" height="191.875"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 92.5 95.9375)" x="92.5" y="95.9375" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C2 · 38⅜</text>
+
+      <rect x="82.5" y="192.5" width="20" height="191.875"
+            fill="#a9dfbf" stroke="#1a7a40" stroke-width="1"/>
+      <text transform="rotate(-90 92.5 288.4375)" x="92.5" y="288.4375" dy="-3"
+            text-anchor="middle" font-size="7" font-weight="bold" fill="#145a32">Str C2 · 38⅜</text>
+
+      <rect x="82.5" y="384.375" width="20" height="95.625"
+            fill="url(#hatch3)" opacity="0.6"/>
+      <rect x="82.5" y="384.375" width="20" height="95.625"
+            fill="none" stroke="#b0a090" stroke-width="0.5"/>
+
+      <!-- ── Unused portion ── -->
+      <rect x="102.5" y="0" width="137.5" height="480"
+            fill="url(#hatch3)" opacity="0.3"/>
+      <rect x="102.5" y="0" width="137.5" height="480"
+            fill="none" stroke="#b0a090" stroke-width="0.5" stroke-dasharray="8,4"/>
+      <text transform="rotate(-90 171.25 240)"
+            x="171.25" y="240" dy="4"
+            text-anchor="middle" font-size="9" fill="#a09080" opacity="0.8">UNUSED 27½" × 96" · use for drawer parts</text>
+
+      <!-- ── Saw-cut lines (vertical rips) ── -->
+      <line x1="20"     y1="0" x2="20"     y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="20.625" y1="0" x2="20.625" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="40.625" y1="0" x2="40.625" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="41.25"  y1="0" x2="41.25"  y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="61.25"  y1="0" x2="61.25"  y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="61.875" y1="0" x2="61.875" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="81.875" y1="0" x2="81.875" y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="82.5"   y1="0" x2="82.5"   y2="480" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Crosscuts: C1/C3 in C1 & C2 -->
+      <line x1="0" y1="199.375" x2="40.625" y2="199.375" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="200"     x2="40.625" y2="200"     stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="337.5"   x2="40.625" y2="337.5"   stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="0" y1="338.125" x2="40.625" y2="338.125" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Crosscut: C1/C1 in C3 -->
+      <line x1="41.25" y1="199.375" x2="61.25" y2="199.375" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="41.25" y1="200"     x2="61.25" y2="200"     stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Crosscuts: C2/C2 in C4 & C5 -->
+      <line x1="61.875" y1="191.875" x2="102.5" y2="191.875" stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <line x1="61.875" y1="192.5"   x2="102.5" y2="192.5"   stroke="#e74c3c" stroke-width="0.8" stroke-dasharray="6,3"/>
+
+      <!-- Dimension annotations -->
+      <line x1="0"   y1="-12" x2="240" y2="-12" stroke="#888" stroke-width="0.75"/>
+      <line x1="0"   y1="-15" x2="0"   y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <line x1="240" y1="-15" x2="240" y2="-9"  stroke="#888" stroke-width="0.75"/>
+      <text x="120" y="-14" text-anchor="middle" font-size="9" fill="#666">48"</text>
+
+      <line x1="-12" y1="0"   x2="-12" y2="480" stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="0"   x2="-7"  y2="0"   stroke="#888" stroke-width="0.75"/>
+      <line x1="-15" y1="480" x2="-7"  y2="480" stroke="#888" stroke-width="0.75"/>
+      <text transform="rotate(-90 -12 240)" x="-12" y="240" text-anchor="middle" font-size="9" fill="#666" dy="-3">96"</text>
+    </svg>
+
+    <ol style="margin-top:0.5rem">
+      <li>Rip five <code>4"</code> strips from the 48" width (uses 20½", leaving 27½" unused)</li>
+      <li><strong>Strips C1 &amp; C2</strong>: Crosscut at <code>39⅞"</code> for C1 Str, then <code>27½"</code> twice for two C3 Strs</li>
+      <li><strong>Strip C3</strong>: Crosscut twice at <code>39⅞"</code> for two C1 Strs</li>
+      <li><strong>Strips C4 &amp; C5</strong>: Crosscut twice at <code>38⅜"</code> for two C2 Strs each</li>
+    </ol>
+
+    <p class="note">12 pieces &nbsp;·&nbsp; 27½" × 96" remains unused (63% of sheet) &nbsp;·&nbsp; Reserve for drawer boxes (½" ply) or future use</p>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
