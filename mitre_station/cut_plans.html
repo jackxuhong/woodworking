@@ -253,6 +253,126 @@ function buildSummary(pieces) {
   return html;
 }
 
+function renderOptimized12() {
+  const pieces = pieces_12();
+
+  const byHeight = new Map();
+  for (const p of pieces) {
+    const k = p.h;
+    if (!byHeight.has(k)) byHeight.set(k, []);
+    byHeight.get(k).push(p);
+  }
+
+  const sheets = [];
+  let cur = { strips: [], usedH: 0 };
+
+  const sortedHeights = [...byHeight.keys()].sort((a, b) => b - a);
+  for (const h of sortedHeights) {
+    const group = byHeight.get(h);
+    group.sort((a, b) => b.w - a.w);
+
+    let remaining = [...group];
+    while (remaining.length > 0) {
+      let stripX = 0;
+      const stripPieces = [];
+      const next = [];
+      for (const p of remaining) {
+        const pw = p.w + KERF;
+        if (stripX + p.w <= SHEET_W) {
+          stripPieces.push({ ...p, x: stripX });
+          stripX += pw;
+        } else {
+          next.push(p);
+        }
+      }
+
+      if (cur.usedH + h <= SHEET_H) {
+        cur.strips.push({ y: cur.usedH, h, pieces: stripPieces });
+        cur.usedH += h + KERF;
+      } else {
+        sheets.push(cur);
+        cur = { strips: [{ y: 0, h, pieces: stripPieces }], usedH: h + KERF };
+      }
+      remaining = next;
+    }
+  }
+  if (cur.strips.length > 0) sheets.push(cur);
+
+  let html = buildLegend(COLORS_12) + '<div class="layout">';
+  for (let i = 0; i < sheets.length; i++) {
+    const s = sheets[i];
+    const areaUsed = s.strips.reduce((sum, strip) => sum + strip.pieces.reduce((s2, p) => s2 + p.w * p.h, 0), 0);
+    const pct = (areaUsed / (SHEET_W * SHEET_H) * 100).toFixed(1);
+    const pieceCount = s.strips.reduce((c, strip) => c + strip.pieces.length, 0);
+    html += `<div class="sheet-panel">`;
+    html += `<h2>&#189;" Plywood &mdash; Sheet ${i + 1} (${pct}% used, ${pieceCount} pieces)</h2>`;
+    html += renderStripSheet(s, i + 1);
+    html += `</div>`;
+  }
+  html += '</div>' + buildSummary(pieces);
+  return html;
+}
+
+function renderStripSheet(sheet, sheetNum) {
+  const margin = 36;
+  const sw = SHEET_W * SCALE + margin;
+  const sh = SHEET_H * SCALE;
+  let svg = `<svg width="${sw}" height="${sh}" viewBox="0 0 ${sw} ${sh}" xmlns="http://www.w3.org/2000/svg">
+  <defs><style>text { font-family: monospace; }</style></defs>`;
+  svg += `<rect x="0" y="0" width="${SHEET_W * SCALE}" height="${sh}" fill="#f5f0e8" stroke="#888" stroke-width="1"/>`;
+
+  // Rip lines (horizontal dashed lines between strips)
+  let yAcc = 0;
+  for (const strip of sheet.strips) {
+    yAcc += strip.h;
+    if (yAcc < SHEET_H - 0.01) {
+      svg += `<line x1="0" y1="${yAcc * SCALE}" x2="${SHEET_W * SCALE}" y2="${yAcc * SCALE}" stroke="#c0392b" stroke-width="2" stroke-dasharray="8,4"/>`;
+    }
+    yAcc += KERF;
+  }
+
+  // Pieces and crosscut lines
+  for (const strip of sheet.strips) {
+    const sy = strip.y * SCALE;
+    const shh = strip.h * SCALE;
+
+    // Crosscut lines
+    let cx = 0;
+    for (const p of strip.pieces) {
+      cx += p.w + KERF;
+      if (cx < SHEET_W - 0.01) {
+        svg += `<line x1="${cx * SCALE}" y1="${sy}" x2="${cx * SCALE}" y2="${sy + shh}" stroke="#999" stroke-width="0.5" stroke-dasharray="3,4"/>`;
+      }
+    }
+
+    // Piece rects and labels
+    for (const p of strip.pieces) {
+      const px = p.x * SCALE;
+      const pw = p.w * SCALE;
+      svg += `<rect x="${px}" y="${sy}" width="${pw}" height="${shh}" fill="${p.color}" fill-opacity="0.55" stroke="${p.color}" stroke-width="1.5"/>`;
+
+      const lbl = shortLabel(p.label, p.w, SCALE);
+      const fs = Math.max(8, Math.min(11, pw / (lbl.length * 0.65)));
+      svg += `<text x="${px + 2}" y="${sy + fs + 2}" font-size="${fs}" fill="#111">${lbl}</text>`;
+
+      if (strip.h > fs * 2.5) {
+        const dim = `${fr(p.w)} \xd7 ${fr(p.h)}`;
+        const dfs = Math.max(6, Math.min(9, pw / (dim.length * 0.6)));
+        svg += `<text x="${px + 2}" y="${sy + fs + dfs + 4}" font-size="${dfs}" fill="#444">${dim}</text>`;
+      }
+    }
+  }
+
+  // Strip height labels in right margin
+  for (const strip of sheet.strips) {
+    const midY = (strip.y + strip.h / 2) * SCALE;
+    svg += `<text x="${SHEET_W * SCALE + 6}" y="${midY + 4}" font-size="9" fill="#c0392b" font-weight="bold">${fr(strip.h)}"</text>`;
+  }
+
+  svg += `</svg>`;
+  return svg;
+}
+
 function showTab(tabId) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
@@ -264,7 +384,7 @@ function showTab(tabId) {
     if (tabId === 'tab-34') {
       el.innerHTML = generateSheetPanels('tab-34', pieces_34, '3/4" Plywood', COLORS_34);
     } else if (tabId === 'tab-12') {
-      el.innerHTML = generateSheetPanels('tab-12', pieces_12, '1/2" Plywood', COLORS_12);
+      el.innerHTML = renderOptimized12();
     } else if (tabId === 'tab-14') {
       el.innerHTML = generateSheetPanels('tab-14', pieces_14, '1/4" Plywood', COLORS_14);
     }
