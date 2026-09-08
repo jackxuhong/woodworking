@@ -7,7 +7,8 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'SF Mono', 'Menlo', 'Consolas', monospace; background: #1a1a1a; color: #e0e0e0; padding: 20px; }
-  h1 { font-size: 18px; margin-bottom: 16px; color: #fff; }
+  h1 { font-size: 18px; margin-bottom: 6px; color: #fff; }
+  .sub { font-size: 12px; color: #888; margin-bottom: 16px; }
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
   .tab { padding: 8px 16px; background: #2a2a2a; border: 1px solid #444; cursor: pointer; font-size: 13px; color: #aaa; border-radius: 4px 4px 0 0; }
   .tab.active { background: #333; color: #fff; border-bottom-color: #333; }
@@ -16,361 +17,252 @@
   .content.active { display: block; }
   .layout { display: flex; gap: 24px; flex-wrap: wrap; }
   .sheet-panel { flex: 0 0 auto; }
-  .sheet-panel h2 { font-size: 14px; margin-bottom: 8px; color: #ccc; }
+  .sheet-panel h2 { font-size: 13px; margin-bottom: 8px; color: #ccc; }
   svg { background: #f5f0e8; border: 1px solid #555; }
-  .summary { margin-top: 20px; }
+  .summary { margin-top: 24px; }
   .summary h2 { font-size: 14px; margin-bottom: 8px; color: #ccc; }
-  table { border-collapse: collapse; font-size: 12px; width: 100%; }
-  th, td { border: 1px solid #444; padding: 4px 8px; text-align: left; }
+  table { border-collapse: collapse; font-size: 12px; }
+  th, td { border: 1px solid #444; padding: 4px 10px; text-align: left; }
   th { background: #2a2a2a; color: #ccc; }
   td { background: #222; }
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; }
+  .ok { color: #2ecc71; }
+  .bad { color: #e74c3c; font-weight: bold; }
+  .check { font-size: 12px; margin-bottom: 14px; padding: 6px 10px; border-radius: 3px; background: #222; border-left: 3px solid #2ecc71; }
+  .check.fail { border-left-color: #e74c3c; }
+  .note { font-size: 12px; color: #999; margin: 10px 0 16px; line-height: 1.6; max-width: 900px; }
+  .note b { color: #ccc; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; font-size: 11px; }
   .legend-item { display: flex; align-items: center; gap: 4px; }
-  .legend-swatch { width: 12px; height: 12px; border-radius: 2px; }
+  .legend-swatch { width: 11px; height: 11px; border-radius: 2px; }
 </style>
 </head>
 <body>
 <h1>Mitre Station &mdash; 4x8 Sheet Cut Plans (48" x 96")</h1>
+<div class="sub">Rip-then-crosscut layouts. Kerf 1/8". Sheet length (96") runs vertically in every drawing.</div>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('tab-34')">3/4" Plywood &ndash; Faces &amp; Doors</button>
-  <button class="tab" onclick="showTab('tab-12')">1/2" Plywood &ndash; Drawer Boxes</button>
-  <button class="tab" onclick="showTab('tab-14')">1/4" Plywood &ndash; Drawer Bottoms</button>
+  <button class="tab active" onclick="showTab('t34')">3/4" &ndash; Faces, Doors, Shelves</button>
+  <button class="tab" onclick="showTab('t12')">1/2" &ndash; Drawer Boxes</button>
+  <button class="tab" onclick="showTab('t14')">1/4" &ndash; Drawer Bottoms</button>
 </div>
 
-<div id="tab-34" class="content active"></div>
-<div id="tab-12" class="content"></div>
-<div id="tab-14" class="content"></div>
+<div id="t34" class="content active"></div>
+<div id="t12" class="content"></div>
+<div id="t14" class="content"></div>
 
 <script>
-const SHEET_W = 48;
-const SHEET_H = 96;
-const SCALE = 5.5;
-const KERF = 0.125;
+const SHEET_W = 48, SHEET_H = 96, SCALE = 5.5, KERF = 0.125;
 
-const COLORS_34 = {
-  cab1_face: '#3498db',
-  cab1_btm: '#2980b9',
-  cab2_door: '#2ecc71',
-  cab2_shelf: '#9b59b6',
-  cab3_face: '#e67e22',
-  cab3_btm: '#d35400'
+// wid = dimension across the sheet's 48" width; len = along the 96" length (natural orientation).
+// A column may set rot:1 to lay its pieces on their side (len across, wid along).
+const PARTS = {
+  // --- 3/4" ---
+  c1f:   { n:'C1 Face',     wid:4.5,     len:19.4375, qty:8,  c:'#3498db' },
+  c1bf:  { n:'C1 Btm Face', wid:10.3125, len:19.4375, qty:2,  c:'#2980b9' },
+  door:  { n:'C2 Door',     wid:18.6875, len:28.5625, qty:2,  c:'#2ecc71' },
+  shelf: { n:'C2 Shelf',    wid:18.8125, len:22.25,   qty:2,  c:'#9b59b6' },
+  c3f:   { n:'C3 Face',     wid:4,       len:27.375,  qty:5,  c:'#e67e22' },
+  c3bf:  { n:'C3 Btm Face', wid:8.25,    len:27.375,  qty:1,  c:'#d35400' },
+  // --- 1/2" ---
+  c1s:   { n:'C1 Side',     wid:4.5,     len:20,      qty:16, c:'#3498db' },
+  c1fb:  { n:'C1 F/B',      wid:4.5,     len:17.5625, qty:16, c:'#5dade2' },
+  c1bs:  { n:'C1 Btm Side', wid:10.3125, len:20,      qty:4,  c:'#2471a3' },
+  c1bfb: { n:'C1 Btm F/B',  wid:10.3125, len:17.5625, qty:4,  c:'#85c1e9' },
+  c3s:   { n:'C3 Side',     wid:4,       len:20,      qty:10, c:'#27ae60' },
+  c3fb:  { n:'C3 F/B',      wid:4,       len:25.5,    qty:10, c:'#58d68d' },
+  c3bs:  { n:'C3 Btm Side', wid:8.25,    len:20,      qty:2,  c:'#1e8449' },
+  c3bfb: { n:'C3 Btm F/B',  wid:8.25,    len:25.5,    qty:2,  c:'#a9dfbf' },
+  // --- 1/4" ---
+  c1btm: { n:'C1 Drw Btm',  wid:19.5,    len:18.0625, qty:10, c:'#3498db' },
+  c3btm: { n:'C3 Drw Btm',  wid:19.5,    len:26,      qty:6,  c:'#27ae60' }
 };
 
-const COLORS_12 = {
-  c1_shallow_side: '#3498db',
-  c1_shallow_fb: '#5dade2',
-  c1_bottom_side: '#2471a3',
-  c1_bottom_fb: '#aed6f1',
-  c3_shallow_side: '#27ae60',
-  c3_shallow_fb: '#58d68d',
-  c3_bottom_side: '#1e8449',
-  c3_bottom_fb: '#a9dfbf'
-};
+const col = (...p) => ({ p });
+const rcol = (...p) => ({ rot: 1, p });
+const row = (...cols) => ({ cols });
+const rep = (n, f) => Array.from({ length: n }, f);
 
-const COLORS_14 = {
-  c1_bottom: '#3498db',
-  c3_bottom: '#27ae60'
-};
-
-let _pieceId = 0;
-function P(w, h, label, color, group) { return { id: ++_pieceId, w, h, label, color, group }; }
-
-function pieces_34() {
-  const list = [];
-  for (let i = 0; i < 8; i++) list.push(P(19.4375, 4.5, 'Cab1 Shallow Face', COLORS_34.cab1_face, 'Cab1'));
-  for (let i = 0; i < 2; i++) list.push(P(19.4375, 10.3125, 'Cab1 Bottom Face', COLORS_34.cab1_btm, 'Cab1'));
-  for (let i = 0; i < 2; i++) list.push(P(18.6875, 28.5625, 'Cab2 Door', COLORS_34.cab2_door, 'Cab2'));
-  for (let i = 0; i < 2; i++) list.push(P(18.8125, 22.25, 'Cab2 Shelf', COLORS_34.cab2_shelf, 'Cab2'));
-  for (let i = 0; i < 5; i++) list.push(P(27.375, 4, 'Cab3 Shallow Face', COLORS_34.cab3_face, 'Cab3'));
-  list.push(P(27.375, 8.25, 'Cab3 Bottom Face', COLORS_34.cab3_btm, 'Cab3'));
-  return list;
-}
-
-function pieces_12() {
-  const list = [];
-  for (let i = 0; i < 16; i++) list.push(P(4.5, 20, 'C1 Shallow Side', COLORS_12.c1_shallow_side, 'Cab1'));
-  for (let i = 0; i < 16; i++) list.push(P(17.5625, 4.5, 'C1 Shallow F/B', COLORS_12.c1_shallow_fb, 'Cab1'));
-  for (let i = 0; i < 4; i++) list.push(P(10.3125, 20, 'C1 Bottom Side', COLORS_12.c1_bottom_side, 'Cab1'));
-  for (let i = 0; i < 4; i++) list.push(P(17.5625, 10.3125, 'C1 Bottom F/B', COLORS_12.c1_bottom_fb, 'Cab1'));
-  for (let i = 0; i < 10; i++) list.push(P(4, 20, 'C3 Shallow Side', COLORS_12.c3_shallow_side, 'Cab3'));
-  for (let i = 0; i < 10; i++) list.push(P(25.5, 4, 'C3 Shallow F/B', COLORS_12.c3_shallow_fb, 'Cab3'));
-  for (let i = 0; i < 2; i++) list.push(P(8.25, 20, 'C3 Bottom Side', COLORS_12.c3_bottom_side, 'Cab3'));
-  for (let i = 0; i < 2; i++) list.push(P(25.5, 8.25, 'C3 Bottom F/B', COLORS_12.c3_bottom_fb, 'Cab3'));
-  return list;
-}
-
-function pieces_14() {
-  const list = [];
-  for (let i = 0; i < 10; i++) list.push(P(18.0625, 19.5, 'Cab1 Bottom', COLORS_14.c1_bottom, 'Cab1'));
-  for (let i = 0; i < 6; i++) list.push(P(26, 19.5, 'Cab3 Bottom', COLORS_14.c3_bottom, 'Cab3'));
-  return list;
-}
-
-function firstFitPack(pieces, sheetW, sheetH, kerf) {
-  const sorted = [...pieces].sort((a, b) => (b.w * b.h) - (a.w * a.h));
-  const occupied = [];
-  const result = [];
-
-  for (const p of sorted) {
-    const pw = p.w + kerf;
-    const ph = p.h + kerf;
-    let bestX = -1, bestY = -1;
-
-    for (let y = 0; y <= sheetH - ph; y += 0.5) {
-      for (let x = 0; x <= sheetW - pw; x += 0.5) {
-        if (!occupied.some(r => rectsOverlap(x, y, pw, ph, r))) {
-          bestX = x; bestY = y; break;
-        }
-      }
-      if (bestX >= 0) break;
-    }
-
-    if (bestX >= 0) {
-      occupied.push({ x: bestX, y: bestY, w: pw, h: ph });
-      result.push({ ...p, x: bestX, y: bestY });
-    }
+// One sheet = rows stacked down the 96" length; each row = columns across the 48" width;
+// each column = pieces stacked down the row. Every boundary is a guillotine cut.
+const LAYOUTS = {
+  t34: {
+    title: '3/4" Plywood',
+    keys: ['c1f','c1bf','door','shelf','c3f','c3bf'],
+    // Cut order per sheet: crosscut the rows off first, then rip each row into columns.
+    sheets: [[
+      row(col('door'), col('door')),
+      row(col('shelf'), col('shelf')),
+      row(rcol('c3f','c3f','c3f','c3f','c3f','c3bf'), rcol('c1f','c1f','c1f','c1f','c1f','c1f')),
+      row(rcol('c1f'), rcol('c1f')),
+      row(rcol('c1bf'), rcol('c1bf'))
+    ]]
+  },
+  t12: {
+    title: '1/2" Plywood',
+    keys: ['c1s','c1fb','c1bs','c1bfb','c3s','c3fb','c3bs','c3bfb'],
+    // Single full-length row: rip the strips first, then crosscut parts out of each strip.
+    // Sheet 1 is Cabinet 1 only. Cab 1's parts are 92.3% of a sheet by area, so with kerf
+    // they cannot all fit on one -- the last 3 bottom-drawer parts are the first strip of
+    // sheet 2, so one edge rip finishes Cab 1 and leaves the rest of sheet 2 whole.
+    notes: ['Sheet 1: Cabinet 1 only.', 'Sheet 2: Cab 1\'s last 3 bottom-drawer parts (first strip), then all of Cabinet 3.'],
+    sheets: [
+      [row(
+        ...rep(5, () => col('c1s','c1s','c1s','c1fb','c1fb')),
+        col('c1s','c1fb','c1fb','c1fb','c1fb'),
+        col('c1fb','c1fb'),
+        col('c1bs','c1bs','c1bs','c1bfb','c1bfb')
+      )],
+      [row(
+        col('c1bs','c1bfb','c1bfb'),
+        col('c3bs','c3bs','c3bfb','c3bfb'),
+        ...rep(5, () => col('c3s','c3s','c3fb','c3fb'))
+      )]
+    ]
+  },
+  t14: {
+    title: '1/4" Plywood',
+    keys: ['c1btm','c3btm'],
+    notes: ['Sheet 1: Cabinet 1 only.', 'Sheet 2: Cabinet 3 only.'],
+    sheets: [
+      [row(...rep(2, () => col('c1btm','c1btm','c1btm','c1btm','c1btm')))],
+      [row(...rep(2, () => col('c3btm','c3btm','c3btm')))]
+    ]
   }
-  return result;
+};
+
+// --- geometry -------------------------------------------------------------
+const dims = (key, rot) => {
+  const p = PARTS[key];
+  return rot ? { w: p.len, h: p.wid } : { w: p.wid, h: p.len };
+};
+const colW = c => Math.max(...c.p.map(k => dims(k, c.rot).w));
+const colH = c => c.p.reduce((s, k) => s + dims(k, c.rot).h, 0) + KERF * (c.p.length - 1);
+const rowH = r => Math.max(...r.cols.map(colH));
+const rowW = r => r.cols.reduce((s, c) => s + colW(c), 0) + KERF * (r.cols.length - 1);
+const sheetH = s => s.reduce((sum, r) => sum + rowH(r), 0) + KERF * (s.length - 1);
+const sheetArea = s => s.reduce((sum, r) => sum + r.cols.reduce((a, c) =>
+  a + c.p.reduce((b, k) => b + PARTS[k].wid * PARTS[k].len, 0), 0), 0);
+
+function place(sheet) {
+  const out = [];
+  let y = 0;
+  for (const r of sheet) {
+    let x = 0;
+    for (const c of r.cols) {
+      let cy = y;
+      for (const k of c.p) {
+        const d = dims(k, c.rot);
+        out.push({ key: k, x, y: cy, w: d.w, h: d.h });
+        cy += d.h + KERF;
+      }
+      x += colW(c) + KERF;
+    }
+    y += rowH(r) + KERF;
+  }
+  return out;
 }
 
-function rectsOverlap(x1, y1, w1, h1, r) {
-  return x1 < r.x + r.w && x1 + w1 > r.x && y1 < r.y + r.h && y1 + h1 > r.y;
-}
-
-function fr(n) {
-  const whole = Math.floor(n);
-  const frac = n - whole;
-  if (frac < 0.005) return whole.toString();
-  if (frac > 0.995) return (whole + 1).toString();
-  const sixteenths = Math.round(frac * 16);
-  if (sixteenths === 0) return whole.toString();
-  const g = gcd(sixteenths, 16);
-  if (g === 16) return (whole + 1).toString();
-  const num = sixteenths / g;
-  const den = 16 / g;
-  if (den === 1) return (whole + num).toString();
-  return whole > 0 ? `${whole} ${num}/${den}` : `${num}/${den}`;
-}
-
+// --- fraction formatting --------------------------------------------------
 function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-
-function shortLabel(label, maxW, scale) {
-  const pxW = maxW * scale - 4; // padding
-  const testSize = Math.min(9, pxW / (label.length * 0.55));
-  if (testSize >= 8) return label;
-  const maxChars = Math.floor(pxW / 7);
-  if (maxChars <= 3) return label.substring(0, 3);
-  return label.length > maxChars ? label.substring(0, maxChars - 1) + '\u2026' : label;
+function fr(n) {
+  const whole = Math.floor(n + 1e-9);
+  const sixteenths = Math.round((n - whole) * 16);
+  if (sixteenths === 0) return String(whole);
+  if (sixteenths === 16) return String(whole + 1);
+  const g = gcd(sixteenths, 16);
+  const f = `${sixteenths / g}/${16 / g}`;
+  return whole > 0 ? `${whole} ${f}` : f;
 }
 
-function buildSheet(placements, sheetNum, sheetW, sheetH, scale, sheetTitle) {
-  const svgW = sheetW * scale;
-  const svgH = sheetH * scale;
+// --- rendering ------------------------------------------------------------
+function drawSheet(sheet) {
+  const W = SHEET_W * SCALE, H = SHEET_H * SCALE;
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  svg += `<rect width="${W}" height="${H}" fill="#f5f0e8" stroke="#888"/>`;
 
-  let svg = `<svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg">
-  <defs><style>text { font-family: monospace; }</style></defs>`;
-  svg += `<rect x="0" y="0" width="${svgW}" height="${svgH}" fill="#f5f0e8" stroke="#888" stroke-width="1"/>`;
+  for (const p of place(sheet)) {
+    const P = PARTS[p.key];
+    const x = p.x * SCALE, y = p.y * SCALE, w = p.w * SCALE, h = p.h * SCALE;
+    svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${P.c}" fill-opacity="0.5" stroke="${P.c}" stroke-width="1.2"/>`;
 
-  for (const p of placements) {
-    const x = p.x * scale;
-    const y = p.y * scale;
-    const w = p.w * scale;
-    const h = p.h * scale;
+    const txt = `${P.n} ${fr(P.len)}×${fr(P.wid)}`;
+    const long = Math.max(w, h), short = Math.min(w, h);
+    const fs = Math.max(6, Math.min(10, short - 5, (long - 6) / (txt.length * 0.58)));
+    svg += h > w
+      ? `<text transform="translate(${x + short / 2 + fs / 2},${y + 3}) rotate(90)" font-size="${fs}" fill="#111">${txt}</text>`
+      : `<text x="${x + 3}" y="${y + short / 2 + fs / 2 - 1}" font-size="${fs}" fill="#111">${txt}</text>`;
+  }
 
-    svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${p.color}" fill-opacity="0.55" stroke="${p.color}" stroke-width="1.5"/>`;
-
-    const lbl = shortLabel(p.label, p.w, scale);
-    const fs = Math.max(8, Math.min(11, w / (lbl.length * 0.65)));
-    svg += `<text x="${x + 2}" y="${y + fs + 2}" font-size="${fs}" fill="#111">${lbl}</text>`;
-
-    const dimText = `${fr(p.w)} \xd7 ${fr(p.h)}`;
-    const dfs = Math.max(6, Math.min(9, w / (dimText.length * 0.6)));
-    if (h > dfs * 3) {
-      svg += `<text x="${x + 2}" y="${y + fs + dfs + 5}" font-size="${dfs}" fill="#444">${dimText}</text>`;
+  // Cut guides: red solid = crosscut the row off, red dashed = rip, grey = crosscut within strip.
+  let y = 0;
+  for (const r of sheet) {
+    const h = rowH(r), ry = y * SCALE, rh = h * SCALE;
+    let x = 0;
+    for (const c of r.cols) {
+      const cw = colW(c);
+      if (x > 0) svg += `<line x1="${x * SCALE - 0.5}" y1="${ry}" x2="${x * SCALE - 0.5}" y2="${ry + rh}" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="7,4"/>`;
+      let cy = y;
+      for (let i = 0; i < c.p.length - 1; i++) {
+        cy += dims(c.p[i], c.rot).h + KERF;
+        svg += `<line x1="${x * SCALE}" y1="${cy * SCALE - 0.5}" x2="${(x + cw) * SCALE}" y2="${cy * SCALE - 0.5}" stroke="#777" stroke-width="0.7" stroke-dasharray="3,3"/>`;
+      }
+      x += cw + KERF;
+    }
+    y += h + KERF;
+    if (y < SHEET_H - 0.01 && sheet.length > 1) {
+      svg += `<line x1="0" y1="${y * SCALE}" x2="${W}" y2="${y * SCALE}" stroke="#c0392b" stroke-width="2.5"/>`;
     }
   }
-
-  svg += `</svg>`;
-  return svg;
+  return svg + `</svg>`;
 }
 
-function generateSheetPanels(tabId, pieceFn, titlePrefix, colors) {
-  const allPieces = pieceFn();
-  const placedIds = new Set();
-  const sheetPanels = [];
-  let sheetNum = 1;
-
-  while (placedIds.size < allPieces.length) {
-    const unplaced = allPieces.filter(p => !placedIds.has(p.id));
-    const placed = firstFitPack(unplaced, SHEET_W, SHEET_H, KERF);
-    if (placed.length === 0) break; // can't fit remaining pieces
-    for (const p of placed) placedIds.add(p.id);
-
-    const areaUsed = placed.reduce((sum, p) => sum + p.w * p.h, 0);
-    const areaTotal = SHEET_W * SHEET_H;
-    const pct = (areaUsed / areaTotal * 100).toFixed(1);
-
-    sheetPanels.push({ placed, sheetNum, areaUsed, areaTotal, pct });
-    sheetNum++;
-  }
-
-  let html = '';
-  for (const panel of sheetPanels) {
-    html += `<div class="sheet-panel">`;
-    html += `<h2>${titlePrefix} &mdash; Sheet ${panel.sheetNum} (${panel.pct}% used, ${panel.placed.length} pieces)</h2>`;
-    html += buildSheet(panel.placed, panel.sheetNum, SHEET_W, SHEET_H, SCALE, titlePrefix);
-    html += `</div>`;
-  }
-
-  const legend = buildLegend(colors);
-  const summary = buildSummary(allPieces);
-
-  return `<div class="legend">${legend}</div><div class="layout">${html}</div><div class="summary">${summary}</div>`;
+function legend(keys) {
+  return keys.map(k => `<div class="legend-item"><span class="legend-swatch" style="background:${PARTS[k].c}"></span>${PARTS[k].n}</div>`).join('');
 }
 
-function buildLegend(colors) {
-  const seen = new Set();
-  let html = '';
-  for (const [key, color] of Object.entries(colors)) {
-    const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    html += `<div class="legend-item"><span class="legend-swatch" style="background:${color}"></span>${label}</div>`;
+// --- self-check: every part accounted for, nothing overhangs the sheet -----
+function validate(L) {
+  const placed = {}, errs = [];
+  L.sheets.forEach((sheet, si) => {
+    sheet.forEach((r, ri) => {
+      if (rowW(r) > SHEET_W + 1e-9) errs.push(`sheet ${si + 1} row ${ri + 1}: ${fr(rowW(r))}" wide > 48"`);
+      r.cols.forEach((c, ci) => {
+        if (colH(c) > rowH(r) + 1e-9) errs.push(`sheet ${si + 1} row ${ri + 1} col ${ci + 1} overflows its row`);
+        c.p.forEach(k => placed[k] = (placed[k] || 0) + 1);
+      });
+    });
+    if (sheetH(sheet) > SHEET_H + 1e-9) errs.push(`sheet ${si + 1}: ${fr(sheetH(sheet))}" long > 96"`);
+  });
+  for (const k of L.keys) {
+    const got = placed[k] || 0;
+    if (got !== PARTS[k].qty) errs.push(`${PARTS[k].n}: placed ${got}, need ${PARTS[k].qty}`);
   }
+  return errs;
+}
+
+function render(tabId) {
+  const L = LAYOUTS[tabId];
+  const errs = validate(L);
+  const total = L.keys.reduce((s, k) => s + PARTS[k].qty, 0);
+
+  let html = `<div class="check${errs.length ? ' fail' : ''}">` +
+    (errs.length ? '&#10007; ' + errs.join('; ')
+      : `&#10003; ${total} pieces placed on ${L.sheets.length} sheet${L.sheets.length > 1 ? 's' : ''}; every part fits within 48" &times; 96" with 1/8" kerf.`) +
+    `</div>`;
+
+  if (L.notes) html += `<div class="note"><b>Build order:</b> ${L.notes.join(' &nbsp;&rarr;&nbsp; ')}</div>`;
+  html += `<div class="legend">${legend(L.keys)}</div><div class="layout">`;
+  L.sheets.forEach((sheet, i) => {
+    const pct = (sheetArea(sheet) / (SHEET_W * SHEET_H) * 100).toFixed(1);
+    const n = sheet.reduce((s, r) => s + r.cols.reduce((a, c) => a + c.p.length, 0), 0);
+    html += `<div class="sheet-panel"><h2>${L.title} &mdash; Sheet ${i + 1} (${pct}% used, ${n} pieces)</h2>${drawSheet(sheet)}</div>`;
+  });
+  html += `</div>`;
+
+  html += `<div class="summary"><h2>Cut List</h2><table><thead><tr><th>Part</th><th>Size</th><th>Qty</th></tr></thead><tbody>`;
+  for (const k of L.keys) html += `<tr><td>${PARTS[k].n}</td><td>${fr(PARTS[k].len)} &times; ${fr(PARTS[k].wid)}</td><td>${PARTS[k].qty}</td></tr>`;
+  html += `</tbody></table></div>`;
   return html;
-}
-
-function buildSummary(pieces) {
-  const groups = {};
-  for (const p of pieces) {
-    if (!groups[p.label]) groups[p.label] = { count: 0, w: p.w, h: p.h, material: p.group };
-    groups[p.label].count++;
-  }
-  let html = `<h2>Cut List Summary</h2><table><thead><tr><th>Part</th><th>Size</th><th>Qty</th><th>Cabinet</th></tr></thead><tbody>`;
-  for (const [label, info] of Object.entries(groups)) {
-    html += `<tr><td>${label}</td><td>${fr(info.w)} x ${fr(info.h)}</td><td>${info.count}</td><td>${info.material}</td></tr>`;
-  }
-  html += `</tbody></table>`;
-  return html;
-}
-
-function renderOptimized12() {
-  const pieces = pieces_12();
-
-  const byHeight = new Map();
-  for (const p of pieces) {
-    const k = p.h;
-    if (!byHeight.has(k)) byHeight.set(k, []);
-    byHeight.get(k).push(p);
-  }
-
-  const sheets = [];
-  let cur = { strips: [], usedH: 0 };
-
-  const sortedHeights = [...byHeight.keys()].sort((a, b) => b - a);
-  for (const h of sortedHeights) {
-    const group = byHeight.get(h);
-    group.sort((a, b) => b.w - a.w);
-
-    let remaining = [...group];
-    while (remaining.length > 0) {
-      let stripX = 0;
-      const stripPieces = [];
-      const next = [];
-      for (const p of remaining) {
-        const pw = p.w + KERF;
-        if (stripX + p.w <= SHEET_W) {
-          stripPieces.push({ ...p, x: stripX });
-          stripX += pw;
-        } else {
-          next.push(p);
-        }
-      }
-
-      if (cur.usedH + h <= SHEET_H) {
-        cur.strips.push({ y: cur.usedH, h, pieces: stripPieces });
-        cur.usedH += h + KERF;
-      } else {
-        sheets.push(cur);
-        cur = { strips: [{ y: 0, h, pieces: stripPieces }], usedH: h + KERF };
-      }
-      remaining = next;
-    }
-  }
-  if (cur.strips.length > 0) sheets.push(cur);
-
-  let html = buildLegend(COLORS_12) + '<div class="layout">';
-  for (let i = 0; i < sheets.length; i++) {
-    const s = sheets[i];
-    const areaUsed = s.strips.reduce((sum, strip) => sum + strip.pieces.reduce((s2, p) => s2 + p.w * p.h, 0), 0);
-    const pct = (areaUsed / (SHEET_W * SHEET_H) * 100).toFixed(1);
-    const pieceCount = s.strips.reduce((c, strip) => c + strip.pieces.length, 0);
-    html += `<div class="sheet-panel">`;
-    html += `<h2>&#189;" Plywood &mdash; Sheet ${i + 1} (${pct}% used, ${pieceCount} pieces)</h2>`;
-    html += renderStripSheet(s, i + 1);
-    html += `</div>`;
-  }
-  html += '</div>' + buildSummary(pieces);
-  return html;
-}
-
-function renderStripSheet(sheet, sheetNum) {
-  const margin = 36;
-  const sw = SHEET_W * SCALE + margin;
-  const sh = SHEET_H * SCALE;
-  let svg = `<svg width="${sw}" height="${sh}" viewBox="0 0 ${sw} ${sh}" xmlns="http://www.w3.org/2000/svg">
-  <defs><style>text { font-family: monospace; }</style></defs>`;
-  svg += `<rect x="0" y="0" width="${SHEET_W * SCALE}" height="${sh}" fill="#f5f0e8" stroke="#888" stroke-width="1"/>`;
-
-  // Rip lines (horizontal dashed lines between strips)
-  let yAcc = 0;
-  for (const strip of sheet.strips) {
-    yAcc += strip.h;
-    if (yAcc < SHEET_H - 0.01) {
-      svg += `<line x1="0" y1="${yAcc * SCALE}" x2="${SHEET_W * SCALE}" y2="${yAcc * SCALE}" stroke="#c0392b" stroke-width="2" stroke-dasharray="8,4"/>`;
-    }
-    yAcc += KERF;
-  }
-
-  // Pieces and crosscut lines
-  for (const strip of sheet.strips) {
-    const sy = strip.y * SCALE;
-    const shh = strip.h * SCALE;
-
-    // Crosscut lines
-    let cx = 0;
-    for (const p of strip.pieces) {
-      cx += p.w + KERF;
-      if (cx < SHEET_W - 0.01) {
-        svg += `<line x1="${cx * SCALE}" y1="${sy}" x2="${cx * SCALE}" y2="${sy + shh}" stroke="#999" stroke-width="0.5" stroke-dasharray="3,4"/>`;
-      }
-    }
-
-    // Piece rects and labels
-    for (const p of strip.pieces) {
-      const px = p.x * SCALE;
-      const pw = p.w * SCALE;
-      svg += `<rect x="${px}" y="${sy}" width="${pw}" height="${shh}" fill="${p.color}" fill-opacity="0.55" stroke="${p.color}" stroke-width="1.5"/>`;
-
-      const lbl = shortLabel(p.label, p.w, SCALE);
-      const fs = Math.max(8, Math.min(11, pw / (lbl.length * 0.65)));
-      svg += `<text x="${px + 2}" y="${sy + fs + 2}" font-size="${fs}" fill="#111">${lbl}</text>`;
-
-      if (strip.h > fs * 2.5) {
-        const dim = `${fr(p.w)} \xd7 ${fr(p.h)}`;
-        const dfs = Math.max(6, Math.min(9, pw / (dim.length * 0.6)));
-        svg += `<text x="${px + 2}" y="${sy + fs + dfs + 4}" font-size="${dfs}" fill="#444">${dim}</text>`;
-      }
-    }
-  }
-
-  // Strip height labels in right margin
-  for (const strip of sheet.strips) {
-    const midY = (strip.y + strip.h / 2) * SCALE;
-    svg += `<text x="${SHEET_W * SCALE + 6}" y="${midY + 4}" font-size="9" fill="#c0392b" font-weight="bold">${fr(strip.h)}"</text>`;
-  }
-
-  svg += `</svg>`;
-  return svg;
 }
 
 function showTab(tabId) {
@@ -379,19 +271,10 @@ function showTab(tabId) {
   document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
   const el = document.getElementById(tabId);
   el.classList.add('active');
-
-  if (el.innerHTML === '') {
-    if (tabId === 'tab-34') {
-      el.innerHTML = generateSheetPanels('tab-34', pieces_34, '3/4" Plywood', COLORS_34);
-    } else if (tabId === 'tab-12') {
-      el.innerHTML = renderOptimized12();
-    } else if (tabId === 'tab-14') {
-      el.innerHTML = generateSheetPanels('tab-14', pieces_14, '1/4" Plywood', COLORS_14);
-    }
-  }
+  if (!el.innerHTML) el.innerHTML = render(tabId);
 }
 
-showTab('tab-34');
+showTab('t34');
 </script>
 </body>
 </html>
