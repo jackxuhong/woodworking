@@ -22,16 +22,16 @@ Assumes 1/16" gap each side for inset fit. Bay interior width: 19 9/16".
 |Bottom Drawer Face|19 7/16 x 10 5/16|2|
 
 ## Drawer Boxes (20" deep)
-Sides, front, and back: 1/2 plywood. Bottom: 1/4 plywood set into 1/4" dado.
+Sides, front, and back: 1/2 plywood. Bottoms are screwed to the bottom edges of the assembled box (no dado) so they can be replaced, and are sized to the box's outside footprint. Shallow drawers get 1/4 plywood bottoms; the deep bottom drawer gets 1/2 plywood — 1/4" sags close to an inch over this span once the drawer is loaded.
 
 |Part|Size|Qty|Material|
 |----|----|---|--------|
 |Shallow Side|4 1/2 x 20|16|1/2 ply|
 |Shallow Front/Back|17 9/16 x 4 1/2|16|1/2 ply|
-|Shallow Bottom|18 1/16 x 19 1/2|8|1/4 ply|
+|Shallow Bottom|18 9/16 x 20|8|1/4 ply|
 |Bottom Side|10 5/16 x 20|4|1/2 ply|
 |Bottom Front/Back|17 9/16 x 10 5/16|4|1/2 ply|
-|Bottom Bottom|18 1/16 x 19 1/2|2|1/4 ply|
+|Bottom Bottom|18 9/16 x 20|2|1/2 ply|
 
 
 
@@ -84,13 +84,13 @@ Assumes 1/16" gap each side for inset fit. Interior width: 27 1/2".
 |Bottom Drawer Face|27 3/8 x 8 1/4|1|
 
 ## Drawer Boxes (20" deep)
-Sides, front, and back: 1/2 plywood. Bottom: 1/4 plywood set into 1/4" dado.
+Sides, front, and back: 1/2 plywood. Bottoms are screwed to the bottom edges of the assembled box (no dado) so they can be replaced, and are sized to the box's outside footprint. Shallow drawers get 1/4 plywood bottoms; the deep bottom drawer gets 1/2 plywood — 1/4" sags close to an inch over this span once the drawer is loaded.
 
 |Part|Size|Qty|Material|
 |----|----|---|--------|
 |Shallow Side|4 x 20|10|1/2 ply|
 |Shallow Front/Back|25 1/2 x 4|10|1/2 ply|
-|Shallow Bottom|26 x 19 1/2|5|1/4 ply|
+|Shallow Bottom|26 1/2 x 20|5|1/4 ply|
 |Bottom Side|8 1/4 x 20|2|1/2 ply|
 |Bottom Front/Back|25 1/2 x 8 1/4|2|1/2 ply|
-|Bottom Bottom|26 x 19 1/2|1|1/4 ply|
+|Bottom Bottom|26 1/2 x 20|1|1/2 ply|

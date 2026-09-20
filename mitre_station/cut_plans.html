@@ -42,8 +42,8 @@
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('t34')">3/4" &ndash; Faces, Doors, Shelves</button>
-  <button class="tab" onclick="showTab('t12')">1/2" &ndash; Drawer Boxes</button>
-  <button class="tab" onclick="showTab('t14')">1/4" &ndash; Drawer Bottoms</button>
+  <button class="tab" onclick="showTab('t12')">1/2" &ndash; Drawer Boxes + Deep Bottoms</button>
+  <button class="tab" onclick="showTab('t14')">1/4" &ndash; Shallow Drawer Bottoms</button>
 </div>
 
 <div id="t34" class="content active"></div>
@@ -72,9 +72,11 @@ const PARTS = {
   c3fb:  { n:'C3 F/B',      wid:4,       len:25.5,    qty:10, c:'#58d68d' },
   c3bs:  { n:'C3 Btm Side', wid:8.25,    len:20,      qty:2,  c:'#1e8449' },
   c3bfb: { n:'C3 Btm F/B',  wid:8.25,    len:25.5,    qty:2,  c:'#a9dfbf' },
+  c1bbt: { n:'C1 Deep Btm', wid:18.5625, len:20,      qty:2,  c:'#1f618d' },
+  c3bbt: { n:'C3 Deep Btm', wid:26.5,    len:20,      qty:1,  c:'#145a32' },
   // --- 1/4" ---
-  c1btm: { n:'C1 Drw Btm',  wid:19.5,    len:18.0625, qty:10, c:'#3498db' },
-  c3btm: { n:'C3 Drw Btm',  wid:19.5,    len:26,      qty:6,  c:'#27ae60' }
+  c1btm: { n:'C1 Shlw Btm', wid:20,      len:18.5625, qty:8 , c:'#3498db' },
+  c3btm: { n:'C3 Shlw Btm', wid:20,      len:26.5,    qty:5,  c:'#27ae60' }
 };
 
 const col = (...p) => ({ p });
@@ -99,24 +101,30 @@ const LAYOUTS = {
   },
   t12: {
     title: '1/2" Plywood',
-    keys: ['c1s','c1fb','c1bs','c1bfb','c3s','c3fb','c3bs','c3bfb'],
-    // Single full-length row: rip the strips first, then crosscut parts out of each strip.
-    // Sheet 1 is Cabinet 1 only. Cab 1's parts are 92.3% of a sheet by area, so with kerf
-    // they cannot all fit on one -- the last 3 bottom-drawer parts are the first strip of
-    // sheet 2, so one edge rip finishes Cab 1 and leaves the rest of sheet 2 whole.
-    notes: ['Sheet 1: Cabinet 1 only.', 'Sheet 2: Cab 1\'s last 3 bottom-drawer parts (first strip), then all of Cabinet 3.'],
+    keys: ['c1s','c1fb','c1bs','c1bfb','c1bbt','c3s','c3fb','c3bs','c3bfb','c3bbt'],
+    // Sheet 1: the two C1 deep-drawer bottoms take the top row whole (they are the only
+    // wide parts), and the rest of Cab 1 fills one full-length row of 4 1/2" strips whose
+    // columns come out dead even at 75 1/2". Cab 1 is 108.4% of a sheet by area, so 3
+    // parts must spill -- they are the first rip of sheet 2, leaving the rest of it whole.
+    notes: ['Sheet 1: Cabinet 1 only.', "Sheet 2: Cab 1's last 3 parts (first strip), then all of Cabinet 3."],
     sheets: [
-      [row(
-        ...rep(5, () => col('c1s','c1s','c1s','c1fb','c1fb')),
-        col('c1s','c1fb','c1fb','c1fb','c1fb'),
-        col('c1fb','c1fb'),
-        col('c1bs','c1bs','c1bs','c1bfb','c1bfb')
-      )],
-      [row(
-        col('c1bs','c1bfb','c1bfb'),
-        col('c3bs','c3bs','c3bfb','c3bfb'),
-        ...rep(5, () => col('c3s','c3s','c3fb','c3fb'))
-      )]
+      [
+        row(col('c1bbt'), col('c1bbt'), col('c1bs')),
+        row(
+          ...rep(8, () => col('c1s','c1s','c1fb','c1fb')),
+          col('c1bs','c1bs','c1bfb','c1bfb')
+        )
+      ],
+      [
+        row(
+          col('c1bs','c1bfb','c1bfb'),
+          col('c3bfb','c3bs'),
+          col('c3bfb','c3bs'),
+          ...rep(5, () => col('c3fb','c3fb'))
+        ),
+        row(col('c3bbt'), ...rep(5, () => col('c3s'))),
+        row(...rep(5, () => col('c3s')))
+      ]
     ]
   },
   t14: {
@@ -124,8 +132,8 @@ const LAYOUTS = {
     keys: ['c1btm','c3btm'],
     notes: ['Sheet 1: Cabinet 1 only.', 'Sheet 2: Cabinet 3 only.'],
     sheets: [
-      [row(...rep(2, () => col('c1btm','c1btm','c1btm','c1btm','c1btm')))],
-      [row(...rep(2, () => col('c3btm','c3btm','c3btm')))]
+      [row(col('c1btm','c1btm','c1btm','c1btm'), col('c1btm','c1btm','c1btm','c1btm'))],
+      [row(col('c3btm','c3btm','c3btm'), col('c3btm','c3btm'))]
     ]
   }
 };
