@@ -65,7 +65,7 @@ header { border-bottom: 2px solid var(--ink); padding-bottom: 18px; display: fle
 .lede { color: var(--ink-2); max-width: 62ch; }
 
 .facts { display: flex; flex-wrap: wrap; gap: 0; margin-top: 18px; border: 1px solid var(--rule); background: var(--surface); }
-.fact { flex: 1 1 172px; padding: 12px 16px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 3px; }
+.fact { flex: 1 1 150px; padding: 12px 16px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 3px; }
 .fact:last-child { border-right: 0; }
 .fact dt { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
 .fact dd { margin: 0; font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -143,14 +143,17 @@ footer { margin-top: 52px; padding-top: 18px; border-top: 1px solid var(--rule);
   <span class="eyebrow">Why the faces are taller than the boxes</span>
   <h2>The box floats inside its face</h2>
   <p>Each shallow box is <span class="num">4&nbsp;11/16&Prime;</span> (4&nbsp;1/2 sides plus a 5mm
-  bottom screwed underneath) behind a <span class="num">5&nbsp;9/16&Prime;</span> face, and the deep box
-  is <span class="num">10&nbsp;13/16&Prime;</span> behind an <span class="num">11&nbsp;11/16&Prime;</span>
+  bottom screwed underneath) behind a <span class="num">5&nbsp;1/2&Prime;</span> face, and the deep box
+  is <span class="num">10&nbsp;13/16&Prime;</span> behind an <span class="num">11&nbsp;7/8&Prime;</span>
   face. That surplus is deliberate: it absorbs carcass error and slide slop, and it lets all eight shallow
   boxes stay one height.</p>
-  <p>It is split evenly &mdash; <span class="num">7/8&Prime;</span> of face over every box, deep one
-  included &mdash; so the gap between each pair of boxes is a uniform
-  <span class="num">15/16&Prime;</span> instead of piling up above the shallow drawers and pinching the
-  deep one.</p>
+  <p>The deep box sits <span class="num">1/4&Prime;</span> up inside its face so it clears the cabinet
+  bottom panel by <span class="num">5/16&Prime;</span>. That is not cosmetic: a loaded
+  <span class="num">1/2&Prime;</span> drawer bottom deflects about <span class="num">1/8&Prime;</span> at
+  the centre, and screw heads on the underside eat more, so a box set at the
+  <span class="num">1/16&Prime;</span> face reveal would drag on the deck once the drawer is full.
+  Reveals are cosmetic, box clearances are not, and the two get sized separately. The rest of the
+  surplus divides out to <span class="num">7/8&Prime;</span> between every other pair of boxes.</p>
   <p>The rule it has to satisfy is simply <strong>box no taller than its own face</strong> &mdash; a face
   plus its reveal is the entire vertical budget that box gets, so a box taller than its face fouls its
   neighbour no matter where the other drawers sit. Everything below follows from that.</p>
@@ -278,10 +281,11 @@ footer { margin-top: 52px; padding-top: 18px; border-top: 1px solid var(--rule);
       2, 4, 6 on the other. The slide has more holes than you need.</p>
     </div>
     <div class="gotcha">
-      <h3>The bottom slide sits 1/16&Prime; off the deck</h3>
-      <p>Drawer 1's layout line is <span class="num">1/16&Prime;</span> above the bottom panel, which is awkward to
-      hold. Rest the cabinet member on a <span class="num">1/16&Prime;</span> offcut laid on the panel and screw
-      it off, rather than trying to eyeball it.</p>
+      <h3>Drawer 1's line is not its face line</h3>
+      <p>Every other box sits level with its face's bottom edge; the deep one is
+      <span class="num">1/4&Prime;</span> higher, so its layout line is <span class="num">5/16&Prime;</span>
+      off the panel, not <span class="num">1/16&Prime;</span>. Rest the cabinet member on a
+      <span class="num">5/16&Prime;</span> offcut laid on the deck and screw it off.</p>
     </div>
     <div class="gotcha">
       <h3>Slides are handed</h3>
@@ -327,15 +331,15 @@ const BOX_D  = 20;        // = slide length
 
 const MM5 = 5 / 25.4;     // 5mm shallow bottoms, 0.197" -- not 1/4"
 const FACES = [
-  { n: 'Drawer 1', kind: 'Deep',    h: 11.6875, box: 10.3125 + 0.5 },
-  { n: 'Drawer 2', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 },
-  { n: 'Drawer 3', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 },
-  { n: 'Drawer 4', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 }
+  { n: 'Drawer 1', kind: 'Deep',    h: 11.875, box: 10.3125 + 0.5, lift: 0.25 },
+  { n: 'Drawer 2', kind: 'Shallow', h: 5.5,    box: 4.5 + MM5,     lift: 0 },
+  { n: 'Drawer 3', kind: 'Shallow', h: 5.5,    box: 4.5 + MM5,     lift: 0 },
+  { n: 'Drawer 4', kind: 'Shallow', h: 5.5,    box: 4.5 + MM5,     lift: 0 }
 ];
 
 // stack bottom-up: a reveal, then a face, then a reveal, ...
 let y = REVEAL;
-for (const f of FACES) { f.bottom = y; f.top = y + f.h; y = f.top + REVEAL; }
+for (const f of FACES) { f.bottom = y; f.top = y + f.h; f.boxBottom = y + f.lift; y = f.top + REVEAL; }
 const STACK = y;
 
 function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
@@ -356,8 +360,15 @@ if (Math.abs((OPEN_W - BOX_W) / 2 - 0.5) > 1e-9)
   errs.push('side clearance ' + fr((OPEN_W - BOX_W) / 2) + '" != 1/2" per side');
 const boxStack = FACES.reduce((s, f) => s + f.box, 0);
 if (boxStack > OPEN_H) errs.push('boxes ' + fr(boxStack) + '" exceed opening');
-for (const f of FACES)
-  if (f.box > f.h + 1e-9) errs.push(f.n + ': box ' + fr(f.box) + '" taller than its ' + fr(f.h) + '" face');
+let below = 0;
+for (const f of FACES) {
+  if (f.box + f.lift > f.h + 1e-9)
+    errs.push(f.n + ': box + lift exceeds its ' + fr(f.h) + '" face');
+  if (f.boxBottom - below < 0.125 - 1e-9)
+    errs.push(f.n + ': only ' + fr(f.boxBottom - below) + '" clearance below the box');
+  below = f.boxBottom + f.box;
+}
+if (OPEN_H - below < 0.125 - 1e-9) errs.push('top drawer has under 1/8" above it');
 
 const chk = document.getElementById('check');
 chk.textContent = errs.length
@@ -388,7 +399,7 @@ document.getElementById('layout').innerHTML =
       + '<td>' + f.n + (f.kind === 'Deep' ? ' · deep' : '') + '</td>'
       + '<td>' + fr(OPEN_W - 2 * REVEAL) + ' × ' + fr(f.h) + '</td>'
       + '<td>' + fr(f.box) + '"</td><td>' + fr(f.h - f.box) + '"</td>'
-      + '<td class="key">' + fr(f.bottom) + '"</td>'
+      + '<td class="key">' + fr(f.boxBottom) + '"</td>'
       + '<td>' + fr(f.top) + '"</td></tr>').join('')
   + '<tr><td>Top reveal</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>'
   + fr(FACES[FACES.length - 1].top) + '"</td><td>' + fr(OPEN_H) + '"</td></tr></tbody>';
@@ -424,16 +435,16 @@ function elevation() {
   // faces + their layout lines
   for (const f of FACES) {
     g.push(rect(openX, Y(f.top), openW, f.h * S, 'var(--face)', 'var(--steel)'));
-    g.push('<rect x="' + (openX + 12) + '" y="' + Y(f.bottom + f.box) + '" width="' + (openW - 24)
+    g.push('<rect x="' + (openX + 12) + '" y="' + Y(f.boxBottom + f.box) + '" width="' + (openW - 24)
       + '" height="' + (f.box * S) + '" fill="none" stroke="var(--surface)" stroke-width="1"'
       + ' stroke-dasharray="4,3"/>');
-    g.push(txt(openX + openW / 2, Y(f.bottom + f.box / 2) + 4,
+    g.push(txt(openX + openW / 2, Y(f.boxBottom + f.box / 2) + 4,
       'face ' + fr(f.h) + '\u00a0/\u00a0box ' + fr(f.box), { anchor: 'middle', fill: '#fff', size: 9.5 }));
     // layout tick, left
-    g.push('<line x1="' + (ML - 40) + '" y1="' + Y(f.bottom) + '" x2="' + (openX + 6)
-      + '" y2="' + Y(f.bottom) + '" stroke="var(--mark)" stroke-width="1"/>');
-    g.push('<circle cx="' + (openX + 6) + '" cy="' + Y(f.bottom) + '" r="2" fill="var(--mark)"/>');
-    g.push(txt(4, Y(f.bottom) + 3.5, fr(f.bottom) + '&Prime;',
+    g.push('<line x1="' + (ML - 40) + '" y1="' + Y(f.boxBottom) + '" x2="' + (openX + 6)
+      + '" y2="' + Y(f.boxBottom) + '" stroke="var(--mark)" stroke-width="1"/>');
+    g.push('<circle cx="' + (openX + 6) + '" cy="' + Y(f.boxBottom) + '" r="2" fill="var(--mark)"/>');
+    g.push(txt(4, Y(f.boxBottom) + 3.5, fr(f.boxBottom) + '&Prime;',
       { fill: 'var(--mark)', weight: 600 }));
   }
 
