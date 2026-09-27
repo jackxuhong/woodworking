@@ -43,7 +43,7 @@
 <div class="tabs">
   <button class="tab active" onclick="showTab('t34')">3/4" &ndash; Faces, Doors, Shelves</button>
   <button class="tab" onclick="showTab('t12')">1/2" &ndash; Drawer Boxes + Deep Bottoms</button>
-  <button class="tab" onclick="showTab('t14')">1/4" &ndash; Shallow Drawer Bottoms</button>
+  <button class="tab" onclick="showTab('t14')">5mm &ndash; Shallow Drawer Bottoms</button>
 </div>
 
 <div id="t34" class="content active"></div>
@@ -57,25 +57,25 @@ const SHEET_W = 48, SHEET_H = 96, SCALE = 5.5, KERF = 0.125;
 // A column may set rot:1 to lay its pieces on their side (len across, wid along).
 const PARTS = {
   // --- 3/4" ---
-  c1f:   { n:'C1 Face',     wid:4.5,     len:19.4375, qty:8,  c:'#3498db' },
-  c1bf:  { n:'C1 Btm Face', wid:10.3125, len:19.4375, qty:2,  c:'#2980b9' },
+  c1f:   { n:'C1 Face',     wid:5.8125,  len:19.4375, qty:6,  c:'#3498db' },
+  c1bf:  { n:'C1 Btm Face', wid:10.9375, len:19.4375, qty:2,  c:'#2980b9' },
   door:  { n:'C2 Door',     wid:18.6875, len:28.5625, qty:2,  c:'#2ecc71' },
   shelf: { n:'C2 Shelf',    wid:18.8125, len:22.25,   qty:2,  c:'#9b59b6' },
   c3f:   { n:'C3 Face',     wid:4,       len:27.375,  qty:5,  c:'#e67e22' },
   c3bf:  { n:'C3 Btm Face', wid:8.25,    len:27.375,  qty:1,  c:'#d35400' },
   // --- 1/2" ---
-  c1s:   { n:'C1 Side',     wid:4.5,     len:20,      qty:16, c:'#3498db' },
-  c1fb:  { n:'C1 F/B',      wid:4.5,     len:17.5625, qty:16, c:'#5dade2' },
+  c1s:   { n:'C1 Side',     wid:4.5,     len:20,      qty:12, c:'#3498db' },
+  c1fb:  { n:'C1 F/B',      wid:4.5,     len:17.5625, qty:12, c:'#5dade2' },
   c1bs:  { n:'C1 Btm Side', wid:10.3125, len:20,      qty:4,  c:'#2471a3' },
   c1bfb: { n:'C1 Btm F/B',  wid:10.3125, len:17.5625, qty:4,  c:'#85c1e9' },
-  c3s:   { n:'C3 Side',     wid:4,       len:20,      qty:10, c:'#27ae60' },
-  c3fb:  { n:'C3 F/B',      wid:4,       len:25.5,    qty:10, c:'#58d68d' },
-  c3bs:  { n:'C3 Btm Side', wid:8.25,    len:20,      qty:2,  c:'#1e8449' },
-  c3bfb: { n:'C3 Btm F/B',  wid:8.25,    len:25.5,    qty:2,  c:'#a9dfbf' },
+  c3s:   { n:'C3 Side',     wid:3.5,     len:20,      qty:10, c:'#27ae60' },
+  c3fb:  { n:'C3 F/B',      wid:3.5,     len:25.5,    qty:10, c:'#58d68d' },
+  c3bs:  { n:'C3 Btm Side', wid:7.625,   len:20,      qty:2,  c:'#1e8449' },
+  c3bfb: { n:'C3 Btm F/B',  wid:7.625,   len:25.5,    qty:2,  c:'#a9dfbf' },
   c1bbt: { n:'C1 Deep Btm', wid:18.5625, len:20,      qty:2,  c:'#1f618d' },
   c3bbt: { n:'C3 Deep Btm', wid:26.5,    len:20,      qty:1,  c:'#145a32' },
-  // --- 1/4" ---
-  c1btm: { n:'C1 Shlw Btm', wid:20,      len:18.5625, qty:8 , c:'#3498db' },
+  // --- 5mm (0.197", not 1/4") ---
+  c1btm: { n:'C1 Shlw Btm', wid:20,      len:18.5625, qty:6,  c:'#3498db' },
   c3btm: { n:'C3 Shlw Btm', wid:20,      len:26.5,    qty:5,  c:'#27ae60' }
 };
 
@@ -90,49 +90,41 @@ const LAYOUTS = {
   t34: {
     title: '3/4" Plywood',
     keys: ['c1f','c1bf','door','shelf','c3f','c3bf'],
-    // Cut order per sheet: crosscut the rows off first, then rip each row into columns.
+    // Rows 1-2 clear Cabinets 2 and 3; row 3 is all of Cabinet 1 plus the second shelf.
+    notes: ['Row 1: both C2 doors + 2 C3 faces.', 'Row 2: rest of Cabinet 3, one shelf, one C1 face.',
+            'Row 3: all of Cabinet 1 + the other shelf.'],
     sheets: [[
-      row(col('door'), col('door')),
-      row(col('shelf'), col('shelf')),
-      row(rcol('c3f','c3f','c3f','c3f','c3f','c3bf'), rcol('c1f','c1f','c1f','c1f','c1f','c1f')),
-      row(rcol('c1f'), rcol('c1f')),
-      row(rcol('c1bf'), rcol('c1bf'))
+      row(col('door'), col('door'), col('c3f'), col('c3f')),
+      row(col('c3f'), col('c3f'), col('c3f'), col('c3bf'), col('shelf'), col('c1f')),
+      row(col('shelf'), col('c1f','c1f'), col('c1f','c1f'), col('c1f'), col('c1bf','c1bf'))
     ]]
   },
   t12: {
     title: '1/2" Plywood',
     keys: ['c1s','c1fb','c1bs','c1bfb','c1bbt','c3s','c3fb','c3bs','c3bfb','c3bbt'],
-    // Sheet 1: the two C1 deep-drawer bottoms take the top row whole (they are the only
-    // wide parts), and the rest of Cab 1 fills one full-length row of 4 1/2" strips whose
-    // columns come out dead even at 75 1/2". Cab 1 is 108.4% of a sheet by area, so 3
-    // parts must spill -- they are the first rip of sheet 2, leaving the rest of it whole.
+    // Sheet 1 is Cabinet 1 bar 3 parts: the deep-drawer bottoms take the top row, then six
+    // 4 1/2" strips of shallow parts sit beside one 10 5/16" strip, all coming out even at
+    // 75 1/2". The 3 leftovers are the first rip of sheet 2 so the rest of it stays whole.
     notes: ['Sheet 1: Cabinet 1 only.', "Sheet 2: Cab 1's last 3 parts (first strip), then all of Cabinet 3."],
     sheets: [
       [
         row(col('c1bbt'), col('c1bbt'), col('c1bs')),
-        row(
-          ...rep(8, () => col('c1s','c1s','c1fb','c1fb')),
-          col('c1bs','c1bs','c1bfb','c1bfb')
-        )
+        row(...rep(6, () => col('c1s','c1s','c1fb','c1fb')), col('c1bs','c1bs','c1bfb','c1bfb'))
       ],
       [
-        row(
-          col('c1bs','c1bfb','c1bfb'),
-          col('c3bfb','c3bs'),
-          col('c3bfb','c3bs'),
-          ...rep(5, () => col('c3fb','c3fb'))
-        ),
+        row(col('c1bs','c1bfb','c1bfb'), col('c3bfb','c3bs'), col('c3bfb','c3bs'),
+            ...rep(5, () => col('c3fb','c3fb'))),
         row(col('c3bbt'), ...rep(5, () => col('c3s'))),
         row(...rep(5, () => col('c3s')))
       ]
     ]
   },
   t14: {
-    title: '1/4" Plywood',
+    title: '5mm Plywood',
     keys: ['c1btm','c3btm'],
     notes: ['Sheet 1: Cabinet 1 only.', 'Sheet 2: Cabinet 3 only.'],
     sheets: [
-      [row(col('c1btm','c1btm','c1btm','c1btm'), col('c1btm','c1btm','c1btm','c1btm'))],
+      [row(col('c1btm','c1btm','c1btm'), col('c1btm','c1btm','c1btm'))],
       [row(col('c3btm','c3btm','c3btm'), col('c3btm','c3btm'))]
     ]
   }
