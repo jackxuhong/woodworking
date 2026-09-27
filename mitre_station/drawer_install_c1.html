@@ -143,10 +143,14 @@ footer { margin-top: 52px; padding-top: 18px; border-top: 1px solid var(--rule);
   <span class="eyebrow">Why the faces are taller than the boxes</span>
   <h2>The box floats inside its face</h2>
   <p>Each shallow box is <span class="num">4&nbsp;11/16&Prime;</span> (4&nbsp;1/2 sides plus a 5mm
-  bottom screwed underneath) behind a <span class="num">5&nbsp;13/16&Prime;</span> face, and the deep box
-  is <span class="num">10&nbsp;13/16&Prime;</span> behind a <span class="num">10&nbsp;15/16&Prime;</span>
+  bottom screwed underneath) behind a <span class="num">5&nbsp;9/16&Prime;</span> face, and the deep box
+  is <span class="num">10&nbsp;13/16&Prime;</span> behind an <span class="num">11&nbsp;11/16&Prime;</span>
   face. That surplus is deliberate: it absorbs carcass error and slide slop, and it lets all eight shallow
   boxes stay one height.</p>
+  <p>It is split evenly &mdash; <span class="num">7/8&Prime;</span> of face over every box, deep one
+  included &mdash; so the gap between each pair of boxes is a uniform
+  <span class="num">15/16&Prime;</span> instead of piling up above the shallow drawers and pinching the
+  deep one.</p>
   <p>The rule it has to satisfy is simply <strong>box no taller than its own face</strong> &mdash; a face
   plus its reveal is the entire vertical budget that box gets, so a box taller than its face fouls its
   neighbour no matter where the other drawers sit. Everything below follows from that.</p>
@@ -323,10 +327,10 @@ const BOX_D  = 20;        // = slide length
 
 const MM5 = 5 / 25.4;     // 5mm shallow bottoms, 0.197" -- not 1/4"
 const FACES = [
-  { n: 'Drawer 1', kind: 'Deep',    h: 10.9375, box: 10.3125 + 0.5 },
-  { n: 'Drawer 2', kind: 'Shallow', h: 5.8125,  box: 4.5 + MM5 },
-  { n: 'Drawer 3', kind: 'Shallow', h: 5.8125,  box: 4.5 + MM5 },
-  { n: 'Drawer 4', kind: 'Shallow', h: 5.8125,  box: 4.5 + MM5 }
+  { n: 'Drawer 1', kind: 'Deep',    h: 11.6875, box: 10.3125 + 0.5 },
+  { n: 'Drawer 2', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 },
+  { n: 'Drawer 3', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 },
+  { n: 'Drawer 4', kind: 'Shallow', h: 5.5625,  box: 4.5 + MM5 }
 ];
 
 // stack bottom-up: a reveal, then a face, then a reveal, ...

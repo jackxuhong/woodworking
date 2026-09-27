@@ -16,14 +16,15 @@ Cuts:
 ## Drawer Faces (3/4 plywood, inset)
 Assumes 1/16" gap each side for inset fit. Bay interior width: 19 9/16".
 
-Faces are deliberately taller than their boxes -- 1 1/8" of face over each shallow box,
-1/8" over the deep one. The box floats inside its face opening, which absorbs carcass
-error and slide slop and keeps every shallow box a single height.
+Faces are deliberately taller than their boxes. The 3 1/2" of surplus is split evenly,
+7/8" per face, which leaves a uniform 15/16" between every pair of boxes. The box floats
+inside its face opening, absorbing carcass error and slide slop and keeping every shallow
+box a single height.
 
 |Part|Size|Qty|
 |----|----|---|
-|Shallow Drawer Face|19 7/16 x 5 13/16|6|
-|Bottom Drawer Face|19 7/16 x 10 15/16|2|
+|Shallow Drawer Face|19 7/16 x 5 9/16|6|
+|Bottom Drawer Face|19 7/16 x 11 11/16|2|
 
 ## Drawer Boxes (20" deep)
 Sides, front, and back: 1/2 plywood. Bottoms are screwed to the bottom edges of the assembled box (no dado) so they can be replaced, and are sized to the box's outside footprint. Shallow bottoms are 5mm plywood (0.197", not 1/4"); the deep bottom drawer gets 1/2 plywood — 1/4" sags close to an inch over this span once the drawer is loaded.
